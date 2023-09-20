@@ -10,16 +10,16 @@
 
         <v-spacer></v-spacer>
 
-        <v-btn variant="text">Dashboard</v-btn>
+        <router-link :to="{ path: 'dashboard'}"><v-btn variant="text">Dashboard</v-btn></router-link>
 
-        <v-btn variant="text">Logs</v-btn>
+        <router-link :to="{ path: 'logs'}"><v-btn variant="text">Logs</v-btn></router-link>
 
-        <v-btn variant="text">Settings</v-btn>
+        <router-link :to="{ path: 'settings'}"><v-btn variant="text">Settings</v-btn></router-link>
 
         <v-btn variant="text">Logout</v-btn>
       </v-app-bar>
 
-      <v-navigation-drawer
+      <v-navigation-drawer v-show="mobile"
         v-model="drawer"
         location="left"
         temporary
@@ -36,25 +36,41 @@
     data: () => ({
       drawer: false,
       group: null,
+      mobile: null,
+      windowWidth: null,
       items: [
         {
-          title: 'Foo',
-          value: 'foo',
+          title: 'Dashboard',
+          value: 'dashboard',
         },
         {
-          title: 'Bar',
-          value: 'bar',
+          title: 'Logs',
+          value: 'logs',
         },
         {
-          title: 'Fizz',
-          value: 'fizz',
+          title: 'Settings',
+          value: 'settings',
         },
         {
-          title: 'Buzz',
-          value: 'buzz',
+          title: 'Logout',
+          value: 'logout',
         },
       ],
     }),
+    created () {
+      window.addEventListener('resize', this.checkScreen)
+      this.checkScreen()
+    },
+    methods: {
+      checkScreen() {
+        this.windowWidth = window.innerWidth
+        if (this.windowWidth < 960) {
+          this.mobile = true
+        } else {
+          this.mobile = false
+        }
+      }
+    },
 
     watch: {
       group () {
