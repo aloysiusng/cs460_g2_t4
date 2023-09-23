@@ -3,6 +3,12 @@ on:
   # This allows you to manually trigger the workflow
   workflow_dispatch: 
 
+permissions:
+  id-token: write # This is required for aws oidc connection
+  contents: read # This is required for actions/checkout  
+env:
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+
 jobs:
   destroy:
     runs-on: ubuntu-latest
@@ -21,7 +27,7 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version: 1.2.5
+          terraform_version: 1.5.7
 
       - name: Terraform Init
         id: init
