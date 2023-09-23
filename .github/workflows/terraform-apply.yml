@@ -1,6 +1,8 @@
 name: "Terraform apply action"
 on:
   push:
+    paths:
+      - "terraform/**"
     branches:
       - main
 permissions:
