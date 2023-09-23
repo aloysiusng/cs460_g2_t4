@@ -4,24 +4,31 @@
         color="light-green-darken-2"
         prominent
       >
+        
+      <div class="d-block d-sm-none d-md-none d-lg-none d-xl-none">
         <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      </div>
 
-        <v-toolbar-title></v-toolbar-title>
+        <v-toolbar-title>Plantify</v-toolbar-title>
 
         <v-spacer></v-spacer>
 
-        <router-link :to="{ path: 'dashboard'}"><v-btn variant="text">Dashboard</v-btn></router-link>
+        <div class="d-none d-md-block d-sm-block">
+          <router-link :to="{ path: 'dashboard'}"><v-btn variant="text">Dashboard</v-btn></router-link>
 
-        <router-link :to="{ path: 'logs'}"><v-btn variant="text">Logs</v-btn></router-link>
+          <router-link :to="{ path: 'logs'}"><v-btn variant="text">Logs</v-btn></router-link>
 
-        <router-link :to="{ path: 'settings'}"><v-btn variant="text">Settings</v-btn></router-link>
+          <router-link :to="{ path: 'settings'}"><v-btn variant="text">Settings</v-btn></router-link>
 
-        <v-btn variant="text">Logout</v-btn>
+          <router-link :to="{ path: 'login'}"><v-btn variant="text">Logout</v-btn></router-link>
+        </div>
+
+
       </v-app-bar>
-
-      <v-navigation-drawer v-show="mobile"
+      
+      <v-navigation-drawer
         v-model="drawer"
-        location="left"
+        location="bottom"
         temporary
       >
         <v-list
@@ -36,8 +43,6 @@
     data: () => ({
       drawer: false,
       group: null,
-      mobile: null,
-      windowWidth: null,
       items: [
         {
           title: 'Dashboard',
@@ -57,21 +62,6 @@
         },
       ],
     }),
-    created () {
-      window.addEventListener('resize', this.checkScreen)
-      this.checkScreen()
-    },
-    methods: {
-      checkScreen() {
-        this.windowWidth = window.innerWidth
-        if (this.windowWidth < 960) {
-          this.mobile = true
-        } else {
-          this.mobile = false
-        }
-      }
-    },
-
     watch: {
       group () {
         this.drawer = false
