@@ -14,11 +14,7 @@ data "aws_iam_policy_document" "lambda_role_assume_role_policy" {
   statement {
     effect  = "Allow"
     actions = ["sts:AssumeRole"]
-
-    principals {
-      type        = "Service"
-      identifiers = ["lambda.amazonaws.com"]
-    }
+    resources = ["*"]
   }
 }
 data "aws_iam_policy_document" "cloudwatch_access_policy" {
@@ -65,10 +61,6 @@ data "aws_iam_policy_document" "lambda_sns_topic_policy" {
     #   values = [aws_lambda_function.test_function.arn] 
     # }
     effect = "Allow"
-    principals {
-      type        = "Service"
-      identifiers = ["sns.amazonaws.com"]
-    }
     resources = [
       aws_sns_topic.low_water_level_topic.arn,
     ]
