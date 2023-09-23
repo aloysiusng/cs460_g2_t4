@@ -28,6 +28,6 @@ resource "aws_iam_policy" "attached_policies" {
 resource "aws_iam_policy_attachment" "attachment" {
   count      = length(var.policy_names)
   name       = "policy-attachment-${count.index}"
-  roles      = var.lambda_arns
+  roles      = var.lambda_role_arns
   policy_arn = aws_iam_policy.attached_policies[count.index].arn
 }
