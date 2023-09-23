@@ -80,7 +80,7 @@ EOF
 }
 # ======================================= LAMBDA IAM ==========================================================
 resource "aws_iam_role" "cs460_lambda_role" {
-  name               = "cs460_lambda_role"
+  name = "cs460_lambda_role"
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
     Statement = [{
@@ -94,9 +94,9 @@ resource "aws_iam_role" "cs460_lambda_role" {
 }
 
 module "attach_role_and_policies" {
-  source            = "./create_attach_iam_policies"
-  lambda_role_arns  = [aws_iam_role.cs460_lambda_role.arn]
-  policy_names      = [
+  source           = "./create_attach_iam_policies"
+  lambda_role_arns = [aws_iam_role.cs460_lambda_role.arn]
+  policy_names = [
     "cs460-cloudwatch-access-policy",
     "cs460-lambda-invoke-policy",
     "cs460-dynamodb-access-policy",
@@ -110,7 +110,7 @@ module "attach_role_and_policies" {
     "Policy for lambda to publish to SNS",
     "Policy for lambda to publish to sns topic",
   ]
-  policy_documents   = [
+  policy_documents = [
     data.aws_iam_policy_document.cloudwatch_access_policy.json,
     data.aws_iam_policy_document.lambda_invoke_policy.json,
     data.aws_iam_policy_document.dynamodb_access_policy.json,
