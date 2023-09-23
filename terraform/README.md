@@ -11,22 +11,45 @@
    - For Audience, enter sts.amazonaws.com
 
 3. Create an iam policy to allow github to provision AWS resources
-
+   This is an example that allows github to provision all the resources needed in this project.
+   To provision more fine-grained policies, you can refer to the [AWS IAM Policy Generator](https://awspolicygen.s3.amazonaws.com/policygen.html)
    ```json
    {
-     "Version": "2012-10-17",
-     "Statement": [
-       {
-         "Effect": "Allow",
-         "Action": "s3:ListBucket",
-         "Resource": "arn:aws:s3:::<your bucket>"
-       },
-       {
-         "Effect": "Allow",
-         "Action": ["s3:PutObject", "s3:GetObject"],
-         "Resource": "arn:aws:s3:::<your bucket>/*"
-       }
-     ]
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "s3:ListBucket",
+            "Resource": "arn:aws:s3:::<your bucket>"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:PutObject",
+                "s3:GetObject"
+            ],
+            "Resource": "arn:aws:s3:::<your bucket>/*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "dynamodb:*"
+            ],
+            "Resource": "arn:aws:dynamodb:*:*:table/*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "apigateway:*",
+                "cloudwatch:*",
+                "logs:*",
+                "iam:*",
+                "sns:*",
+                "lambda:*"
+            ],
+            "Resource": "*"
+        }
+    ]
    }
    ```
 
