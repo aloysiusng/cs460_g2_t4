@@ -13,8 +13,8 @@ variable "policy_documents" {
   type        = list(string)
 }
 
-variable "lambda_role_arns" {
-  description = "List of lambda role arns to attach to the IAM role."
+variable "lambda_role_names" {
+  description = "List of lambda role names to attach to the IAM role."
   type        = list(string)
 }
 
@@ -28,6 +28,6 @@ resource "aws_iam_policy" "attached_policies" {
 resource "aws_iam_policy_attachment" "attachment" {
   count      = length(var.policy_names)
   name       = "${var.policy_names[count.index]}-attachment"
-  roles      = var.lambda_role_arns
+  roles      = var.lambda_role_names
   policy_arn = aws_iam_policy.attached_policies[count.index].arn
 }

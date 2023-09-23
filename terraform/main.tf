@@ -95,7 +95,7 @@ resource "aws_iam_role" "cs460_lambda_role" {
 
 module "attach_role_and_policies" {
   source           = "./create_attach_iam_policies"
-  lambda_role_arns = [aws_iam_role.cs460_lambda_role.arn]
+  lambda_role_names = [aws_iam_role.cs460_lambda_role.name]
   policy_names = [
     "cs460-cloudwatch-access-policy",
     "cs460-lambda-invoke-policy",
