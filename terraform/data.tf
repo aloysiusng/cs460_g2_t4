@@ -10,13 +10,6 @@ data "aws_iam_policy_document" "dynamodb_access_policy" {
 }
 
 # lambda iam
-data "aws_iam_policy_document" "lambda_role_assume_role_policy" {
-  statement {
-    effect  = "Allow"
-    actions = ["sts:AssumeRole"]
-    resources = ["*"]
-  }
-}
 data "aws_iam_policy_document" "cloudwatch_access_policy" {
   statement {
     effect    = "Allow"

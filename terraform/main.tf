@@ -81,7 +81,16 @@ EOF
 # ======================================= LAMBDA IAM ==========================================================
 resource "aws_iam_role" "cs460_lambda_role" {
   name               = "cs460_lambda_role"
-  assume_role_policy = data.aws_iam_policy_document.lambda_role_assume_role_policy.json
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [{
+      Action = "sts:AssumeRole",
+      Effect = "Allow",
+      Principal = {
+        Service = "lambda.amazonaws.com"
+      }
+    }]
+  })
 }
 
 module "attach_role_and_policies" {
