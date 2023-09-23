@@ -86,7 +86,7 @@ resource "aws_iam_role" "cs460_lambda_role" {
 
 module "attach_role_and_policies" {
   source            = "./create_attach_iam_policies"
-  role_name         = "cs460_lambda_role"
+  lambda_role_arns  = [aws_iam_role.cs460_lambda_role.arn]
   policy_names      = [
     "cs460-cloudwatch-access-policy",
     "cs460-lambda-invoke-policy",
@@ -136,7 +136,7 @@ resource "aws_apigatewayv2_integration" "test_function_integration" {
 resource "aws_apigatewayv2_route" "test_function_route" {
   api_id    = aws_apigatewayv2_api.cs460_api_gw.id
   route_key = "GET /test_function"
-  target    = "integrations/${aws_apigatewayv2_integration.test_function.id}"
+  target    = "integrations/${aws_apigatewayv2_integration.test_function_integration.id}"
 }
 resource "aws_lambda_permission" "test_function_permission" {
   statement_id  = "AllowExecutionFromAPIGateway"
