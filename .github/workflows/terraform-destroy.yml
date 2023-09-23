@@ -7,11 +7,16 @@ permissions:
   id-token: write # This is required for aws oidc connection
   contents: read # This is required for actions/checkout  
 env:
+  TF_LOG: INFO
   AWS_REGION: ${{ secrets.AWS_REGION }}
 
 jobs:
   destroy:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./terraform
 
     steps:
       - name: Checkout code
