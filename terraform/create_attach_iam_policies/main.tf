@@ -1,7 +1,3 @@
-variable "role_name" {
-  description = "The name of the IAM role to attach policies to."
-}
-
 variable "policy_names" {
   description = "List of policy names to attach to the IAM role."
   type        = list(string)
