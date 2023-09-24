@@ -1,6 +1,6 @@
 <template>
     <div>
-    
+        Logs view
     </div>
 </template>
 
