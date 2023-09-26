@@ -29,7 +29,7 @@
                         </v-card-text>
                     </v-card>
 
-                    <v-btn block color="teal" size="large" @click.prevent="login()">
+                    <v-btn block color="teal" size="large" @click.prevent="login()" :loading="this.loading">
                         Log In
                     </v-btn>
                 </v-card>
@@ -43,6 +43,7 @@ export default {
     data() {
         return {
             visible: false,
+            loading: false,
             loginData: {
                 email: '',
                 password: ''
@@ -58,6 +59,8 @@ export default {
     },
     methods: {
         login() {
+
+            this.loading=true;
 
             // Admin credentials
             const admin = {
@@ -77,6 +80,8 @@ export default {
                 this.error.show = true
                 this.error.message = 'Invalid credentials'
             }
+
+            this.loading=false;
         }
     }
 }
