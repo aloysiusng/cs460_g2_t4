@@ -52,6 +52,10 @@ jobs:
         id: validate
         run: terraform validate -no-color
 
+      - name: Get PWD
+        id: getPWD
+        run: pwd
+
       - name: Terraform Plan
         id: plan
         run: terraform plan -no-color
