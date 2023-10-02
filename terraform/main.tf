@@ -10,7 +10,7 @@ resource "aws_dynamodb_table" "sensor_data" {
   range_key = "timestamp"
   attribute {
     name = "timestamp"
-    type = "S"
+    type = "N"
   }
 }
 resource "aws_dynamodb_table" "user_to_plant" {
@@ -138,7 +138,7 @@ module "post_email_water_level_low_alert" {
   lambda_runtime     = "nodejs14.x"
   lambda_handler     = "index.handler"
   lambda_environment_variables = {
-    TABLE_NAME = aws_dynamodb_table.sensor_data.name
+    USER_TABLE_NAME = aws_dynamodb_table.user_to_plant.name
     SES_EMAIL  = var.SES_EMAIL
   }
   lambda_role_arn     = aws_iam_role.cs460_lambda_role.arn
