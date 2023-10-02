@@ -21,11 +21,7 @@ resource "aws_dynamodb_table" "user_to_plant" {
     name = "plant_id"
     type = "S"
   }
-  range_key = "user_id"
-  attribute {
-    name = "user_id"
-    type = "S"
-  }
+  range_key = "user_email"
   attribute {
     name = "user_email"
     type = "S"
