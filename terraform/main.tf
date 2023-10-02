@@ -57,7 +57,7 @@ resource "aws_apigatewayv2_stage" "cs460_api_gw" {
 }
 # ======================================= SES  ==========================================================
 resource "aws_sesv2_email_identity" "cs460_email_identity" {
-  email_email_identity = var.SES_EMAIL
+  email_identity = var.SES_EMAIL
 }
 
 # ======================================= LAMBDA IAM ==========================================================
