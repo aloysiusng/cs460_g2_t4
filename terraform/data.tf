@@ -34,10 +34,3 @@ data "aws_iam_policy_document" "ses_identity_policy" {
     resources = ["*"]
   }
 }
-
-# lambda functions
-data "archive_file" "test_function_zip" {
-  type        = "zip"
-  source_dir  = "../backend/test_function"
-  output_path = "../backend/test_function.zip"
-}

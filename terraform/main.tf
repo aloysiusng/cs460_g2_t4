@@ -110,7 +110,7 @@ module "get_plant_info" {
   lambda_method        = "GET"
   lambda_function_name = "get_plant_info"
   # using absolue path of githubactions machine
-  path_to_lambda_dir   = "/home/runner/work/cs460_g2_t4/cs460_g2_t4/backend/lambda/get_plant_info"
+  path_to_lambda_dir   = "../backend/lambda/get_plant_info"
   lambda_runtime       = "nodejs14.x"
   lambda_handler       = "index.handler"
   api_query_parameter  = "/{proxy+}"
@@ -127,7 +127,7 @@ module "post_email_water_level_low_alert" {
   lambda_method        = "POST"
   lambda_function_name = "post_email_water_level_low_alert"
   # using absolue path of githubactions machine
-  path_to_lambda_dir   = "/home/runner/work/cs460_g2_t4/cs460_g2_t4/backend/lambda/post_email_water_level_low_alert"
+  path_to_lambda_dir   = "../backend/lambda/post_email_water_level_low_alert"
   lambda_runtime       = "nodejs14.x"
   lambda_handler       = "index.handler"
   lambda_environment_variables = {
