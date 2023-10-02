@@ -52,15 +52,7 @@ jobs:
         id: validate
         run: terraform validate -no-color
 
-      - name: Get PWD
-        id: getPWD
-        run: pwd
-
-      - name: ls home dir
-        id: ls
-        run: ls ../backend/lambda
-
-      - name: Terraform Plan
+        - name: Terraform Plan
         id: plan
         run: terraform plan -no-color
         if: github.event_name == 'pull_request'
