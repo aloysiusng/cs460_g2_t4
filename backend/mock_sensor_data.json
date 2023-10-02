@@ -1,0 +1,42 @@
+[
+    {
+      "plant_id": "c325ae6d-5554-4605-bac1-b5bad7af14e1",
+      "timestamp": 1696246742000,
+      "moisture_level": 21,
+      "sunlight_level": 1,
+      "water_level": 23,
+      "humidity_level": 30
+    },
+    {
+      "plant_id": "c325ae6d-5554-4605-bac1-b5bad7af14e1",
+      "timestamp": 1696256742000,
+      "moisture_level": 20,
+      "sunlight_level": 1,
+      "water_level": 43,
+      "humidity_level": 29
+    },
+    {
+      "plant_id": "c325ae6d-5554-4605-bac1-b5bad7af14e1",
+      "timestamp": 1696266742000,
+      "moisture_level": 22,
+      "sunlight_level": 1,
+      "water_level": 33,
+      "humidity_level": 29
+    },
+    {
+      "plant_id": "c325ae6d-5554-4605-bac1-b5bad7af14e1",
+      "timestamp": 1696276742000,
+      "moisture_level": 25,
+      "sunlight_level": 0,
+      "water_level": 23,
+      "humidity_level": 30
+    },
+    {
+      "plant_id": "c325ae6d-5554-4605-bac1-b5bad7af14e1",
+      "timestamp": 1696286742000,
+      "moisture_level": 21,
+      "sunlight_level": 0,
+      "water_level": 63,
+      "humidity_level": 28
+    }
+]
