@@ -55,6 +55,10 @@ jobs:
       - name: Get PWD
         id: getPWD
         run: pwd
+        
+      - name: ls home dir
+        id: ls
+        run: ls ../
 
       - name: Terraform Plan
         id: plan
