@@ -2,16 +2,32 @@
 resource "aws_dynamodb_table" "sensor_data" {
   name         = "SensorData"
   billing_mode = "PAY_PER_REQUEST"
-  # hash key -> :PK
-  hash_key = "plant_id"
+  hash_key     = "plant_id"
   attribute {
     name = "plant_id"
     type = "S"
   }
-  # sort key -> :SK
   range_key = "timestamp"
   attribute {
     name = "timestamp"
+    type = "S"
+  }
+}
+resource "aws_dynamodb_table" "user_to_plant" {
+  name         = "UserToPlant"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "plant_id"
+  attribute {
+    name = "plant_id"
+    type = "S"
+  }
+  range_key = "user_id"
+  attribute {
+    name = "user_id"
+    type = "S"
+  }
+  attribute {
+    name = "user_email"
     type = "S"
   }
 }
