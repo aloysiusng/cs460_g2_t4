@@ -1,6 +1,6 @@
 resource "aws_lambda_function" "lambda_function" {
   function_name = var.lambda_function_name
-  filename      = var.path_to_lambda_dir
+  filename      = data.archive_file.lambda_function_zip.output_path
   role          = var.lambda_role_arn
   handler       = var.lambda_handler
 
