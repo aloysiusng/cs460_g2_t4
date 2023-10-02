@@ -19,10 +19,10 @@ variable "lambda_role_names" {
 }
 
 resource "aws_iam_policy" "attached_policies" {
-  count        = length(var.policy_names)
-  name         = var.policy_names[count.index]
-  description  = var.policy_descriptions[count.index]
-  policy       = var.policy_documents[count.index]
+  count       = length(var.policy_names)
+  name        = var.policy_names[count.index]
+  description = var.policy_descriptions[count.index]
+  policy      = var.policy_documents[count.index]
 }
 
 resource "aws_iam_policy_attachment" "attachment" {

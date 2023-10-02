@@ -55,29 +55,16 @@ resource "aws_apigatewayv2_stage" "cs460_api_gw" {
     )
   }
 }
-# ======================================= SNS  ==========================================================
-resource "aws_sns_topic" "low_water_level_topic" {
-  name            = "low_water_level_topic"
-  delivery_policy = <<EOF
-{
-  "http": {
-    "defaultHealthyRetryPolicy": {
-      "minDelayTarget": 20,
-      "maxDelayTarget": 20,
-      "numRetries": 3,
-      "numMaxDelayRetries": 0,
-      "numNoDelayRetries": 0,
-      "numMinDelayRetries": 0,
-      "backoffFunction": "linear"
-    },
-    "disableSubscriptionOverrides": false,
-    "defaultThrottlePolicy": {
-      "maxReceivesPerSecond": 1
-    }
-  }
+# ======================================= SES  ==========================================================
+resource "aws_ses_email_identity" "cs460_email_identity" {
+  email = var.SES_EMAIL
 }
-EOF
+resource "aws_ses_identity_policy" "cs460_email_identity_policy" {
+  name     = "cs460_email_identity_policy"
+  identity = aws_ses_email_identity.cs460_email_identity.email
+  policy   = data.aws_iam_policy_document.ses_identity_policy.json
 }
+
 # ======================================= LAMBDA IAM ==========================================================
 resource "aws_iam_role" "cs460_lambda_role" {
   name = "cs460_lambda_role"
@@ -94,64 +81,58 @@ resource "aws_iam_role" "cs460_lambda_role" {
 }
 
 module "attach_role_and_policies" {
-  source           = "./create_attach_iam_policies"
+  source            = "./create_attach_iam_policies"
   lambda_role_names = [aws_iam_role.cs460_lambda_role.name]
   policy_names = [
     "cs460-cloudwatch-access-policy",
     "cs460-lambda-invoke-policy",
     "cs460-dynamodb-access-policy",
-    "cs460-lambda-sns-policy",
-    "cs460-lambda-sns-topic-policy",
+    "cs460-lambda-ses-policy",
   ]
   policy_descriptions = [
     "Policy for cloudwatch access",
     "Policy for lambda invokation",
     "Policy for DynamoDB access",
-    "Policy for lambda to publish to SNS",
-    "Policy for lambda to publish to sns topic",
+    "Policy for lambda to publish to SES",
   ]
   policy_documents = [
     data.aws_iam_policy_document.cloudwatch_access_policy.json,
     data.aws_iam_policy_document.lambda_invoke_policy.json,
     data.aws_iam_policy_document.dynamodb_access_policy.json,
-    data.aws_iam_policy_document.lambda_sns_policy.json,
-    data.aws_iam_policy_document.lambda_sns_topic_policy.json,
+    data.aws_iam_policy_document.ses_identity_policy.json,
   ]
 }
 
 #======================================== API Gateway routes (lambda)========================================
-# example
-# ========================= GET /get_product ========================================
-resource "aws_lambda_function" "test_function" {
-  function_name = "test_function"
-  filename      = "../backend/test_function.zip"
-  role          = aws_iam_role.cs460_lambda_role.arn
-  handler       = "test_function.test_function.lambda_handler"
-
-  source_code_hash = data.archive_file.test_function_zip.output_base64sha256
-  runtime          = "python3.8"
-  timeout          = 900
+# ========================= GET /get_plant_info ========================================
+module "get_plant_info" {
+  source               = "./lambda_and_apigw"
+  lambda_method        = "GET"
+  lambda_function_name = "get_plant_info"
+  path_to_lambda_dir   = "../backend/lambda/get_plant_info"
+  lambda_runtime       = "nodejs14.x"
+  lambda_handler       = "index.handler"
+  api_query_parameter  = "/{proxy+}"
+  lambda_environment_variables = {
+    TABLE_NAME = aws_dynamodb_table.sensor_data.name
+  }
+  lambda_role_arn     = aws_iam_role.cs460_lambda_role.arn
+  apigw_execution_arn = aws_apigatewayv2_api.cs460_api_gw.execution_arn
+  apigw_id            = aws_apigatewayv2_api.cs460_api_gw.id
 }
-resource "aws_cloudwatch_log_group" "test_function" {
-  name              = "/aws/lambda/${aws_lambda_function.test_function.function_name}"
-  retention_in_days = 30
+# ========================= POST /post_email_water_level_low_alert ========================================
+module "post_email_water_level_low_alert" {
+  source               = "./lambda_and_apigw"
+  lambda_method        = "POST"
+  lambda_function_name = "post_email_water_level_low_alert"
+  path_to_lambda_dir   = "../backend/lambda/post_email_water_level_low_alert"
+  lambda_runtime       = "nodejs14.x"
+  lambda_handler       = "index.handler"
+  lambda_environment_variables = {
+    TABLE_NAME = aws_dynamodb_table.sensor_data.name
+    SES_EMAIL  = var.SES_EMAIL
+  }
+  lambda_role_arn     = aws_iam_role.cs460_lambda_role.arn
+  apigw_execution_arn = aws_apigatewayv2_api.cs460_api_gw.execution_arn
+  apigw_id            = aws_apigatewayv2_api.cs460_api_gw.id
 }
-resource "aws_apigatewayv2_integration" "test_function_integration" {
-  api_id             = aws_apigatewayv2_api.cs460_api_gw.id
-  integration_uri    = aws_lambda_function.test_function.invoke_arn
-  integration_type   = "AWS_PROXY"
-  integration_method = "POST" #dont change this
-}
-resource "aws_apigatewayv2_route" "test_function_route" {
-  api_id    = aws_apigatewayv2_api.cs460_api_gw.id
-  route_key = "GET /test_function"
-  target    = "integrations/${aws_apigatewayv2_integration.test_function_integration.id}"
-}
-resource "aws_lambda_permission" "test_function_permission" {
-  statement_id  = "AllowExecutionFromAPIGateway"
-  action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.test_function.function_name
-  principal     = "apigateway.amazonaws.com"
-  source_arn    = "${aws_apigatewayv2_api.cs460_api_gw.execution_arn}/*/*"
-}
-

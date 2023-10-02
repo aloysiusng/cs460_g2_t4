@@ -24,43 +24,16 @@ data "aws_iam_policy_document" "lambda_invoke_policy" {
     resources = ["*"]
   }
 }
-data "aws_iam_policy_document" "lambda_sns_policy" {
+data "aws_iam_policy_document" "ses_identity_policy" {
   statement {
     actions = [
-      "sns:Publish" # This allows Lambda to publish messages to SNS
+      "SES:SendEmail",
+      "SES:SendRawEmail"
     ]
-    resources = [
-      "arn:aws:sns:your-region:your-account-id:your-topic-name" # Replace with your SNS topic ARN
-    ]
+    effect    = "Allow"
+    resources = ["*"]
   }
 }
-data "aws_iam_policy_document" "lambda_sns_topic_policy" {
-  statement {
-    actions = [
-      "SNS:Subscribe",
-      "SNS:SetTopicAttributes",
-      "SNS:RemovePermission",
-      "SNS:Receive",
-      "SNS:Publish",
-      "SNS:ListSubscriptionsByTopic",
-      "SNS:GetTopicAttributes",
-      "SNS:DeleteTopic",
-      "SNS:AddPermission",
-    ]
-    # condition {
-    #   test     = "StringEquals"
-    #   variable = "AWS:SourceArn"
-    #   # change to lambda arn that will invoke SNS
-    #   values = [aws_lambda_function.test_function.arn] 
-    # }
-    effect = "Allow"
-    resources = [
-      aws_sns_topic.low_water_level_topic.arn,
-    ]
-  }
-}
-
-
 
 # lambda functions
 data "archive_file" "test_function_zip" {
