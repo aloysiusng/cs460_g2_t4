@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - "terraform/**"
+      - "backend/lambda/**"
     branches:
       - main
 permissions:
