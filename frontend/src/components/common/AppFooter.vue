@@ -14,13 +14,8 @@
 
 <script>
   export default {
-    name: 'Footer',
+    name: 'AppFooter',
   }
 </script>
 
-  <!-- <style lang="scss" scoped>
-    .v-footer {
-      height: 100px;
-    }
-  </style> -->
 
