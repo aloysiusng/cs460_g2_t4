@@ -26,11 +26,8 @@ data "aws_iam_policy_document" "lambda_invoke_policy" {
 }
 data "aws_iam_policy_document" "ses_identity_policy" {
   statement {
-    actions = [
-      "SES:SendEmail",
-      "SES:SendRawEmail"
-    ]
     effect    = "Allow"
+    actions   = ["ses:*"]
     resources = ["*"]
   }
 }
