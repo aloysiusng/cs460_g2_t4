@@ -24,7 +24,7 @@ resource "aws_apigatewayv2_integration" "lambda_function_integration" {
 }
 resource "aws_apigatewayv2_route" "lambda_function_route" {
   api_id    = var.apigw_id
-  route_key = "${var.lambda_method} /${lambda_function_name}"
+  route_key = "${var.lambda_method} /${var.lambda_function_name}"
   target    = "integrations/${aws_apigatewayv2_integration.lambda_function_integration.id}"
 }
 resource "aws_lambda_permission" "lambda_function_permission" {
