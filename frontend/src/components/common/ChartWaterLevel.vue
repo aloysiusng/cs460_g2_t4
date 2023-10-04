@@ -1,25 +1,7 @@
 <template>
-    <v-row>
-        <v-col cols="8">
-            <div class="row chartElem">
-                <highcharts class="chart" :options="chartTemp" :updateArgs="updateArgs"></highcharts>
-            </div>
-            <div class="row">
-                <highcharts class="chart" :options="chartWaterLevel" :updateArgs="updateArgs"></highcharts>
-            </div>
-            <!-- <div id="chartType">
-            <select v-model="chartType">
-                <option>Line</option>
-                <option>Column</option>
-            </select>
-            </div> -->
-        </v-col>
-        <v-col cols="4">
-            <v-card>
-                Settings
-            </v-card>
-        </v-col>
-    </v-row>
+    <div class="row">
+        <highcharts class="chart" :options="chartWaterLevel" :updateArgs="updateArgs"></highcharts>
+    </div>
   </template>
   
   <script>
@@ -27,18 +9,6 @@
     data () {
       return {
         updateArgs: [true, true, {duration: 1000}],
-        chartTemp: {
-          chart: {
-            type: 'line'
-          },
-          title: {
-            text: 'Temperature'
-          },
-          series: [{
-            data: [28, 29, 33, 36, 32, 32, 33, 30],
-            color: '#6fcd98'
-          }]
-        },
         chartWaterLevel: {
           chart: {
             type: 'column'
@@ -53,6 +23,9 @@
         },
       }
     },
+    // props: {
+
+    // }
     // created () {
     //   let i = document.createElement('input')
     //   i.setAttribute('type', 'color');
