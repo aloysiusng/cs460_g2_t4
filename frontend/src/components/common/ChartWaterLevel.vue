@@ -1,57 +1,70 @@
 <template>
-    <div class="row">
-        <highcharts class="chart" :options="chartWaterLevel" :updateArgs="updateArgs"></highcharts>
+    <div class="row chartElem">
+        <highcharts class="chart" :options="chartData" :updateArgs="updateArgs"></highcharts>
     </div>
   </template>
   
   <script>
   export default {
+    props: {
+      plantData: Object
+    },
     data () {
       return {
         updateArgs: [true, true, {duration: 1000}],
-        chartWaterLevel: {
+        chartData: {
           chart: {
             type: 'column'
           },
           title: {
             text: 'Water Level'
           },
+          xAxis: {
+            categories: [],
+            title: {
+              text: 'Timestamp'
+            },
+          },
+          yAxis: {
+            title: {
+              text: 'Water Level'
+            },
+          },
           series: [{
-            data: [120, 130, 110, 140, 132, 132, 133, 130],
+            name: 'Water Level',
+            data: [],
             color: '#6fcd98'
           }]
         },
       }
     },
-    // props: {
-
-    // }
-    // created () {
-    //   let i = document.createElement('input')
-    //   i.setAttribute('type', 'color');
-    //   (i.type === 'color') ? this.colorInputIsSupported = true : this.colorInputIsSupported = false
-    // },
-    // watch: {
-    //   title (newValue) {
-    //     this.chartOptions.title.text = newValue
-    //   },
-    //   points: {
-    //     handler(newValue) {
-    //       this.chartOptions.series[0].data = newValue
-    //     },
-    //     deep: true
-    //   },
-    //   chartType (newValue) {
-    //     this.chartOptions.chart.type = newValue.toLowerCase()
-    //   },
-    //   seriesColor (newValue) {
-    //     this.chartOptions.series[0].color = newValue.toLowerCase()
-    //   },
-    //   animationDuration (newValue) {
-    //     this.updateArgs[2].duration = Number(newValue)
-    //   }
-    // }
-  }
+    mounted () {
+      if(this.plantData){
+        this.formatData(this.plantData)
+      }
+    },
+    methods: {
+      formatData(plantData) {
+        console.log(plantData);
+        for (var data of plantData) {
+          console.log(data.timestamp);
+          console.log(data.water_level)
+          // categories.push(data.timestamp)
+          this.chartData.xAxis.categories.push(new Date(data.timestamp).toISOString())
+          this.chartData.series[0].data.push(data.water_level)
+        }
+      }
+    },
+    watch: {
+      plantData: {
+        handler(newValue) {
+          // Update the series data when the plantData prop changes
+          this.chartTemp.series[0].data = this.formatData(newValue);
+        },
+        deep: true
+        }
+      }
+    }
   </script>
   
   <style scoped>
