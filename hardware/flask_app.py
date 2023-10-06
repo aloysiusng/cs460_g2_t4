@@ -28,12 +28,15 @@ def offswitch(RelayPin = RelayPin):
 
 @app.route('/water',methods=['GET'])
 def waterPlant():
-    print("helloo")
-    onswitch(RelayPin)
-    time.sleep(5)
-    offswitch(RelayPin)
-    print("done watering")
-    return "Done"
+    try:
+        print("helloo")
+        onswitch(RelayPin)
+        time.sleep(5)
+        offswitch(RelayPin)
+        print("done watering")
+        return "Done"
+    except:
+        return "Error watering"
 
 if __name__ == '__main__':
     offswitch(RelayPin)
