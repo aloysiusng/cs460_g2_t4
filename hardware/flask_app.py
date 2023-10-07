@@ -47,6 +47,10 @@ def offswitch(RelayPin = RelayPin):
     GPIO.output(RelayPin, GPIO.HIGH)
     GPIO.cleanup()
 
+def log(message):
+    f = open("wateringschedule.txt", "a")
+    f.write(message + "\n")
+    f.close()
 
 @app.route('/water',methods=['GET'])
 def waterPlant():
@@ -56,6 +60,7 @@ def waterPlant():
         time.sleep(5)
         
         offswitch(RelayPin)
+        log(f"watered at {datetime.datetime.now()}")
         return jsonify({'status': 200,
                             'data': {
                                 'wateringDone': True
