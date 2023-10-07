@@ -5,7 +5,9 @@ from time import sleep
 from gpiozero import Buzzer, InputDevice
  
 # buzz    = Buzzer(13)
-no_rain = InputDevice(18)
+# no_rain = InputDevice(18)
+no_rain = InputDevice(21)
+# no_rain = InputDevice(40)
  
 # def buzz_now(iterations):
 #     for x in range(iterations):
