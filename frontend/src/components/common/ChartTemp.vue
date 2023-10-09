@@ -53,7 +53,11 @@ export default {
         this.chartData.xAxis.categories.push(new Date(data.timestamp).toISOString())
         this.chartData.series[0].data.push(data.humidity_level)
       }
-      console.log(this.chartData.xAxis.categories)
+      // console.log(this.chartData.xAxis.categories)
+      // for (timestamp of this.chartData.xAxis.categories) {
+      //   timestamp = timestamp.slice(0, 10) + " " + timestamp.slice(11, 19)
+      // }
+      // console.log(this.chartData.xAxis.categories)
     }
   },
   watch: {
