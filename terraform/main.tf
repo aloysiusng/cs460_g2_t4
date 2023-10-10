@@ -155,7 +155,7 @@ module "post_email_water_level_low_alert" {
   apigw_id            = aws_apigatewayv2_api.cs460_api_gw.id
 }
 # ========================= GET /get_treshold ========================================
-module "get_plant_info" {
+module "get_treshold" {
   source               = "./lambda_and_apigw"
   lambda_method        = "GET"
   lambda_function_name = "get_treshold"
