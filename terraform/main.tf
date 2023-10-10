@@ -145,3 +145,4 @@ module "post_email_water_level_low_alert" {
   apigw_execution_arn = aws_apigatewayv2_api.cs460_api_gw.execution_arn
   apigw_id            = aws_apigatewayv2_api.cs460_api_gw.id
 }
+
