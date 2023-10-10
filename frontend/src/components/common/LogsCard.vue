@@ -43,7 +43,14 @@
         }, 
         data () {
         return {
-            
+          options: {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+          },
         }
       },
       mounted(){
@@ -55,11 +62,13 @@
       methods: {
         formatData(plantData) {
           for (var data of plantData) {
-            data.timestamp = new Date(data.timestamp).toISOString()
-            data.timestamp = data.timestamp.slice(0, 10) + " " + data.timestamp.slice(11, 19)
-            // data.humidity_level = parseInt(data.humidity_level)
+            data.timestamp = new Date(data.timestamp).toLocaleString("en-US", this.options)
           }
         }
-      }
-    }
+        // formatData(plantData) {
+        //   for (var data of plantData) {
+        //     data.timestamp = new Date(data.timestamp).toISOString()
+        //     data.timestamp = data.timestamp.slice(0, 10) + " " + data.timestamp.slice(11, 19)
+          }
+        }
   </script>

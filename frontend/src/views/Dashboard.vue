@@ -14,20 +14,27 @@
             <v-col cols="12" md="8" order-md="1">
                 <v-skeleton-loader type="table" :loading = "loading">
                     <v-container>
-                        <v-card elavation="2" class="mb-2" v-if="!loading">
+                        <v-card elevation="2" class="mb-2" v-if="!loading">
                             <ChartTemp :plantData="this.plantData" />
                         </v-card>
                     </v-container>
                 </v-skeleton-loader>
                 <v-skeleton-loader type="table" :loading = "loading">
                     <v-container>
-                        <v-card elavation="2" class="mb-2" v-if="!loading">
+                        <v-card elevation="2" class="mb-2" v-if="!loading">
                             <ChartWaterLevel :plantData="this.plantData "/>
                         </v-card>
                     </v-container>
                 </v-skeleton-loader>
             </v-col>
             
+            <v-col cols="4">
+                <v-skeleton-loader type="sentences" :loading = "loading">
+                    <v-container>
+                        <Summary :plantData="this.plantData"/>
+                    </v-container>
+                </v-skeleton-loader>
+            </v-col>
         </v-row>
     </v-container>
 </template>

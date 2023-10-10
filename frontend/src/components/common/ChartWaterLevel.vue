@@ -36,6 +36,14 @@
             color: '#6fcd98'
           }]
         },
+        options: {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        },
       }
     },
     mounted () {
@@ -50,7 +58,7 @@
           console.log(data.timestamp);
           console.log(data.water_level)
           // categories.push(data.timestamp)
-          this.chartData.xAxis.categories.push(new Date(data.timestamp).toISOString())
+          this.chartData.xAxis.categories.push(new Date(data.timestamp).toLocaleString("en-US", this.options))
           this.chartData.series[0].data.push(data.water_level)
         }
       }

@@ -6,7 +6,7 @@
                 <v-col cols="6">
                     <v-row>
                         <v-col cols="12">
-                            <p class="text-h6 font-weight-medium"> Temperature </p>
+                            <p class="text-h6 font-weight-medium"> Humidity </p>
                         </v-col>
                         <v-col cols="12">
                             <p class="text-h6 font-weight-medium"> Water Level </p>
@@ -30,10 +30,25 @@
   
   <script>
   export default {
+    props: {
+        plantData: Object
+    },
     data () {
       return {
       }
     },
+    mounted(){
+
+    },
+    methods:{
+        getAverageWaterLevel(data){
+            // Calculate the sum of water_level values
+            const sumWaterLevel = data.reduce((acc, item) => acc + item.water_level, 0);
+            // Calculate the average
+            const averageWaterLevel = sumWaterLevel / data.length; 
+            return averageWaterLevel;  
+        }
+    }
   }
   </script>
   
