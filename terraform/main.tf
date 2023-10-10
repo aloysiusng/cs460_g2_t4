@@ -154,13 +154,13 @@ module "post_email_water_level_low_alert" {
   apigw_execution_arn = aws_apigatewayv2_api.cs460_api_gw.execution_arn
   apigw_id            = aws_apigatewayv2_api.cs460_api_gw.id
 }
-# ========================= GET /get_treshold ========================================
-module "get_treshold" {
+# ========================= GET /get_threshold ========================================
+module "get_threshold" {
   source               = "./lambda_and_apigw"
   lambda_method        = "GET"
-  lambda_function_name = "get_treshold"
+  lambda_function_name = "get_threshold"
   # using absolue path of githubactions machine
-  path_to_lambda_dir  = "../backend/lambda/get_treshold"
+  path_to_lambda_dir  = "../backend/lambda/get_threshold"
   lambda_runtime      = "nodejs14.x"
   lambda_handler      = "index.handler"
   api_query_parameter = "/{proxy+}"
