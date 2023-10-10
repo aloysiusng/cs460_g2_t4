@@ -3,10 +3,15 @@
         <h1 class="heading-1 font-weight-medium text-center">Welcome back to Plantify!</h1>
     </v-container>
     <v-container>
-        {{ this.plantData }}
-
         <v-row>
-            <v-col cols="8">
+            <v-col cols="12" md="4" order-md="2">
+                <v-skeleton-loader type="sentences" :loading = "loading">
+                    <v-container>
+                        <Summary />
+                    </v-container>
+                </v-skeleton-loader>
+            </v-col>
+            <v-col cols="12" md="8" order-md="1">
                 <v-skeleton-loader type="table" :loading = "loading">
                     <v-container>
                         <v-card elavation="2" class="mb-2" v-if="!loading">
@@ -22,13 +27,7 @@
                     </v-container>
                 </v-skeleton-loader>
             </v-col>
-            <v-col cols="4">
-                <v-skeleton-loader type="sentences" :loading = "loading">
-                    <v-container>
-                        <Summary />
-                    </v-container>
-                </v-skeleton-loader>
-            </v-col>
+            
         </v-row>
     </v-container>
 </template>

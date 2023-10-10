@@ -75,7 +75,7 @@ export default {
 
             if (this.loginData.email.toUpperCase() == admin.email.toUpperCase() && this.loginData.password == admin.password) {
                 localStorage.setItem("plantifyUserInfo", JSON.stringify(this.loginData));
-                this.$router.push('/dashboard')
+                this.$router.push('/')
             } else {
                 this.error.show = true
                 this.error.message = 'Invalid credentials'
