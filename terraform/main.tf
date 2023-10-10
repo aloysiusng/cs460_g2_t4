@@ -13,6 +13,15 @@ resource "aws_dynamodb_table" "sensor_data" {
     type = "N"
   }
 }
+resource "aws_dynamodb_table" "sensor_threshold_data" {
+  name         = "SensorThresholdData"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "plant_id"
+  attribute {
+    name = "plant_id"
+    type = "S"
+  }
+}
 resource "aws_dynamodb_table" "user_to_plant" {
   name         = "UserToPlant"
   billing_mode = "PAY_PER_REQUEST"
