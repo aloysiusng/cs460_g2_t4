@@ -154,4 +154,20 @@ module "post_email_water_level_low_alert" {
   apigw_execution_arn = aws_apigatewayv2_api.cs460_api_gw.execution_arn
   apigw_id            = aws_apigatewayv2_api.cs460_api_gw.id
 }
-
+# ========================= GET /get_treshold ========================================
+module "get_plant_info" {
+  source               = "./lambda_and_apigw"
+  lambda_method        = "GET"
+  lambda_function_name = "get_treshold"
+  # using absolue path of githubactions machine
+  path_to_lambda_dir  = "../backend/lambda/get_treshold"
+  lambda_runtime      = "nodejs14.x"
+  lambda_handler      = "index.handler"
+  api_query_parameter = "/{proxy+}"
+  lambda_environment_variables = {
+    TABLE_NAME = aws_dynamodb_table.sensor_data.name
+  }
+  lambda_role_arn     = aws_iam_role.cs460_lambda_role.arn
+  apigw_execution_arn = aws_apigatewayv2_api.cs460_api_gw.execution_arn
+  apigw_id            = aws_apigatewayv2_api.cs460_api_gw.id
+}
