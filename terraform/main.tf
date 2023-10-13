@@ -165,7 +165,7 @@ module "get_threshold" {
   lambda_handler      = "index.handler"
   api_query_parameter = "/{proxy+}"
   lambda_environment_variables = {
-    TABLE_NAME = aws_dynamodb_table.sensor_data.name
+    TABLE_NAME = aws_dynamodb_table.sensor_threshold_data.name
   }
   lambda_role_arn     = aws_iam_role.cs460_lambda_role.arn
   apigw_execution_arn = aws_apigatewayv2_api.cs460_api_gw.execution_arn
