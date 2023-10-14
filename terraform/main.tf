@@ -171,3 +171,19 @@ module "get_threshold" {
   apigw_execution_arn = aws_apigatewayv2_api.cs460_api_gw.execution_arn
   apigw_id            = aws_apigatewayv2_api.cs460_api_gw.id
 }
+
+module "update_threshold" {
+    source               = "./lambda_and_apigw"
+    lambda_method        = "POST"
+    lambda_function_name = "post_update_threshold"
+    # using absolue path of githubactions machine
+    path_to_lambda_dir  = "../backend/lambda/update_threshold"
+    lambda_runtime      = "nodejs14.x"
+    lambda_handler      = "index.handler"
+    lambda_environment_variables = {
+        TABLE_NAME = aws_dynamodb_table.sensor_threshold_data.name
+    }
+    lambda_role_arn     = aws_iam_role.cs460_lambda_role.arn
+    apigw_execution_arn = aws_apigatewayv2_api.cs460_api_gw.execution_arn
+    apigw_id            = aws_apigatewayv2_api.cs460_api_gw.id
+}
