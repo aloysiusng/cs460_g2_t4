@@ -177,7 +177,7 @@ module "post_update_threshold" {
     lambda_method        = "POST"
     lambda_function_name = "post_update_threshold"
     # using absolue path of githubactions machine
-    path_to_lambda_dir  = "../backend/lambda/update_threshold"
+    path_to_lambda_dir  = "../backend/lambda/post_update_threshold"
     lambda_runtime      = "nodejs14.x"
     lambda_handler      = "index.handler"
     api_query_parameter = "/{proxy+}"
