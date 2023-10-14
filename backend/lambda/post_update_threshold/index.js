@@ -38,13 +38,12 @@ exports.handler = async (event, context) => {
 
     try {
         const data = await dynamoDb.update(params).promise();
-        const output = data.Items;
 
         return {
             statusCode: 200,
             body: JSON.stringify({
                 message: "Threshold data updated",
-                output,
+                data: data.Items,
             }),
         };
     } catch (error) {
