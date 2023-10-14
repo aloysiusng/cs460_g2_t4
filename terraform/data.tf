@@ -6,7 +6,7 @@ data "aws_iam_policy_document" "dynamodb_access_policy" {
     resources = [
       aws_dynamodb_table.sensor_data.arn,
       aws_dynamodb_table.user_to_plant.arn,
-      aws_dynamodb_table.sensor_threshold_data
+      aws_dynamodb_table.sensor_threshold_data.arn
     ]
   }
 }
