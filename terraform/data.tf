@@ -2,7 +2,7 @@
 data "aws_iam_policy_document" "dynamodb_access_policy" {
   statement {
     effect  = "Allow"
-    actions = ["dynamodb:GetItem", "dynamodb:PutItem", "dynamodb:DeleteItem", "dynamodb:Scan", "dynamodb:Query"]
+    actions = ["dynamodb:GetItem", "dynamodb:PutItem", "dynamodb:DeleteItem", "dynamodb:Scan", "dynamodb:Query", "dynamodb:UpdateItem"]
     resources = [
       aws_dynamodb_table.sensor_data.arn,
       aws_dynamodb_table.user_to_plant.arn,
