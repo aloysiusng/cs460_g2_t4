@@ -180,9 +180,25 @@ module "post_update_threshold" {
     path_to_lambda_dir  = "../backend/lambda/post_update_threshold"
     lambda_runtime      = "nodejs14.x"
     lambda_handler      = "index.handler"
-    api_query_parameter = "/{proxy+}"
     lambda_environment_variables = {
         TABLE_NAME = aws_dynamodb_table.sensor_threshold_data.name
+    }
+    lambda_role_arn     = aws_iam_role.cs460_lambda_role.arn
+    apigw_execution_arn = aws_apigatewayv2_api.cs460_api_gw.execution_arn
+    apigw_id            = aws_apigatewayv2_api.cs460_api_gw.id
+}
+
+module "post_publish_payload_to_IoT" {
+    source               = "./lambda_and_apigw"
+    lambda_method        = "POST"
+    lambda_function_name = "post_publish_payload_to_IoT"
+    # using absolue path of githubactions machine
+    path_to_lambda_dir  = "../backend/lambda/post_publish_payload_to_IoT"
+    lambda_runtime      = "nodejs14.x"
+    lambda_handler      = "index.handler"
+
+    lambda_environment_variables = {
+        IOTENDPOINT = var.IOTENDPOINT
     }
     lambda_role_arn     = aws_iam_role.cs460_lambda_role.arn
     apigw_execution_arn = aws_apigatewayv2_api.cs460_api_gw.execution_arn
