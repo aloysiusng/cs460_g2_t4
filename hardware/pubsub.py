@@ -106,6 +106,9 @@ DHT_PIN = 22
 # for raindrops module
 raindropsPin = 21
 
+wateringscheduleFile = "wateringschedule.txt"
+plant_id = "c325ae6d-5554-4605-bac1-b5bad7af14e1"
+
 def getWaterRatio():
     ratioWaterLevel = None
     try:
@@ -146,7 +149,7 @@ def getData():
     
 
     last_watered_timestamp = None
-    f = open("wateringschedule.txt", "r")
+    f = open(wateringscheduleFile, "r")
     lines = f.readlines()
     if len(lines) != 0:
         last_watered_timestamp = lines[-1].split(" ")[-1]
@@ -165,7 +168,7 @@ def getData():
     "raining": True if not no_rain else False, 
     "last_watered_timestamp": last_watered_timestamp, 
     "sunlight_level" : 0 if sunlightLevel else 1,
-    "plant_id": "c325ae6d-5554-4605-bac1-b5bad7af14e1", 
+    "plant_id": plant_id, 
     "moisture_level": 1}
 
 
@@ -236,33 +239,13 @@ if __name__ == '__main__':
 
     message_count = cmdData.input_count
     # message_topic = cmdData.input_topic
-    message_topic = "device2/c325ae6d-5554-4605-bac1-b5bad7af14e1/data"
+    message_topic = f"device2/{plant_id}/data"
     # message_string = cmdData.input_message
     import json
-#     message_string = {
-#   "temperature": 88,
-#   "humidity": 80,
-#   "barometer": 1013,
-#   "wind": {
-#     "velocity": 22,
-#     "bearing": 255
-#   }
-# }
-    
-    # message_string = {"humidity_level": 20, 
-    # "temperature": 20,
-    # "water_level": 20, 
-    # "raining": 20, 
-    # "last_watered_timestamp": 20, 
-    # "sunlight_level" : 20,
-    # "plant_id": "23",
-    # "moisture_level": 20}
 
     message_string = getData()
 
-
-
-    watering_topic = "water/c325ae6d-5554-4605-bac1-b5bad7af14e1/data"
+    watering_topic = f"water/{plant_id}/data"
     topic = watering_topic
     # Subscribe -  TODO: to get watering requests???
     print("Subscribing to topic '{}'...".format(topic))
