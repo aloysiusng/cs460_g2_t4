@@ -1,17 +1,16 @@
 // Utilities
-import { defineStore } from 'pinia'
-import axios from 'axios'
+import axios from "axios";
+import { defineStore } from "pinia";
 
 const PLANTIFY_API = import.meta.env.VITE_PLANTIFY_APIGATEWAY_URL;
 
-export const useAppStore = defineStore('app', {
+export const useAppStore = defineStore("app", {
   state: () => ({
     //
   }),
   actions: {
     // Not used.... as login is mocked
     async login(emailAddress, password) {
-
       try {
         let response = await axios.post(`${PLANTIFY_API}/login`, {
           EmailAddress: emailAddress,
@@ -32,27 +31,24 @@ export const useAppStore = defineStore('app', {
       }
     },
     async getPlantInfo(payload) {
-
-      const plant_id = payload.plant_id
+      const plant_id = payload.plant_id;
       var endpoint = `${PLANTIFY_API}/get_plant_info?plant_id=${plant_id}`;
 
       if (payload.after_timestamp) {
-        endpoint += `&after_timestamp=${after_timestamp}`;
+        endpoint += `&after_timestamp=${payload.after_timestamp}`;
       }
       if (payload.before_timestamp) {
-        endpoint += `&before_timestamp=${before_timestamp}`;
+        endpoint += `&before_timestamp=${payload.before_timestamp}`;
       }
       try {
         const response = await axios.get(endpoint);
 
         if (response.status == 200) {
-          return response.data
+          return response.data;
         }
       } catch (error) {
-        console.error("Unable to get plantinfo: ", error)
+        console.error("Unable to get plantinfo: ", error);
       }
-
-
-    }
-  }
-})
+    },
+  },
+});
