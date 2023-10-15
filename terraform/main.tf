@@ -96,10 +96,6 @@ resource "aws_iam_role" "cs460_iot_role" {
   })
 }
 
-resource "" "name" {
-  
-}
-
 module "attach_role_and_policies_to_iot" {
   source            = "./create_attach_iam_policies"
   lambda_role_names = [aws_iam_role.cs460_iot_role.name]
