@@ -5,8 +5,8 @@
     <v-container>
         <v-row>
             <v-col cols="12" md="4" order-md="2">
-                <v-skeleton-loader type="table" :loading="loading" v-if="loading"></v-skeleton-loader>
-                <v-container>
+                <v-skeleton-loader type="article" :loading="loading" v-if="loading"></v-skeleton-loader>
+                <v-container v-if="!loading">
                     <Summary />
                 </v-container>
             </v-col>
