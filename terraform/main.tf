@@ -82,6 +82,34 @@ resource "aws_sesv2_email_identity" "cs460_email_identity" {
 }
 
 # ======================================= IoT ==========================================================
+resource "aws_iam_role" "cs460_iot_role" {
+  name = "cs460_iot_role"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [{
+      Action = "sts:AssumeRole",
+      Effect = "Allow",
+      Principal = {
+        Service = "iot.amazonaws.com"
+      }
+    }]
+  })
+}
+
+module "attach_role_and_policies_to_iot" {
+  source            = "./create_attach_iam_policies"
+  lambda_role_names = [aws_iam_role.cs460_iot_role.name]
+  policy_names = [
+    "cs460-dynamodb-access-policy",
+  ]
+  policy_descriptions = [
+    "Policy for DynamoDB access",
+  ]
+  policy_documents = [
+    data.aws_iam_policy_document.dynamodb_access_policy.json,
+  ]
+}
+
 resource "aws_iot_topic_rule" "plant_sensor_data_rule" {
   name        = "plant_sensor_data_rule"
   description = "Rule for plant sensor data"
@@ -93,7 +121,7 @@ resource "aws_iot_topic_rule" "plant_sensor_data_rule" {
     put_item {
       table_name = aws_dynamodb_table.sensor_data.name
     }
-    role_arn = aws_iam_role.cs460_lambda_role.arn
+    role_arn = aws_iam_role.cs460_iot_role.arn
   }
 }
 
@@ -112,7 +140,7 @@ resource "aws_iam_role" "cs460_lambda_role" {
   })
 }
 
-module "attach_role_and_policies" {
+module "attach_role_and_policies_to_lambda" {
   source            = "./create_attach_iam_policies"
   lambda_role_names = [aws_iam_role.cs460_lambda_role.name]
   policy_names = [
