@@ -50,5 +50,34 @@ export const useAppStore = defineStore("app", {
         console.error("Unable to get plantinfo: ", error);
       }
     },
+    async getThresholdData(payload) {
+      const plant_id = payload.plant_id;
+      var endpoint = `${PLANTIFY_API}/get_threshold?plant_id=${plant_id}`;
+
+      try {
+        const response = await axios.get(endpoint);
+
+        if (response.status == 200) {
+          return response.data;
+        }
+      } catch (error) {
+        console.error("Unable to get plantinfo: ", error);
+      }
+    },
+    async updateThresholdData(payload) {
+      const plant_id = payload.plant_id;
+      var endpoint = `${PLANTIFY_API}/post_update_threshold`;
+
+      try {
+        const response = await axios.post(endpoint, payload);
+
+        if (response.status == 200) {
+          console.log(response)
+          return response.data;
+        }
+      } catch (error) {
+        console.error("Unable to update: ", error);
+      }
+    },
   },
 });

@@ -3,6 +3,7 @@
         <h1 class="heading-1 font-weight-medium text-center">Welcome back to Plantify!</h1>
     </v-container>
     
+    {{ thresholdData }}
     <v-container v-if="loading">
         <v-row>
             <v-col cols="8" md="8" order-md="1">
@@ -64,7 +65,8 @@ export default {
     },
     data() {
         return {
-            plantData: null,
+            plantData: [],
+            thresholdData: null,
             loading: false
         }
     },
@@ -74,7 +76,8 @@ export default {
         Summary
     },
     mounted() {
-        this.getPlantInfo();
+        // this.getPlantInfo();
+        this.getThreshold();
     },
     methods: {
         async getPlantInfo() {
@@ -87,7 +90,29 @@ export default {
             this.plantData = response.data
             this.loading = false
 
-        }
+        },
+        async getThreshold() {
+            this.loading = true;
+            const payload = {
+                plant_id: "c325ae6d-5554-4605-bac1-b5bad7af14e1",
+            }
+
+            const response = await this.appStore.getThresholdData(payload)
+            this.thresholdData = response.data
+            this.loading = false
+
+        },
+        async updateThreshold() {
+            this.loading = true;
+            const payload = {
+                plant_id: "c325ae6d-5554-4605-bac1-b5bad7af14e1",
+            }
+
+            const response = await this.appStore.updateThresholdData(payload)
+            this.thresholdData = response.data
+            this.loading = false
+
+        },
     }
 }
 </script>
