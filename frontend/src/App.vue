@@ -22,6 +22,7 @@ export default {
             if (storedUser) {
                 const parsedUser = JSON.parse(storedUser);
                 Object.assign(this, parsedUser);
+                this.$router.push({ path: '/dashboard' })
             }
         }
     }
