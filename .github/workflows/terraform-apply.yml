@@ -67,4 +67,5 @@ jobs:
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         env:
           SES_EMAIL: ${{ secrets.SES_EMAIL }}
-        run: terraform apply -auto-approve -input=false -no-color -var "SES_EMAIL=${SES_EMAIL}"
+          IOTENDPOINT: ${{ secrets.IOTENDPOINT }}
+        run: terraform apply -auto-approve -input=false -no-color -var "SES_EMAIL=${SES_EMAIL}" -var "IOTENDPOINT=${IOTENDPOINT}"

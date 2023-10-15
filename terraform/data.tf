@@ -33,3 +33,10 @@ data "aws_iam_policy_document" "ses_identity_policy" {
     resources = ["*"]
   }
 }
+data "aws_iam_policy_document" "iot_allow_policy" {
+  statement {
+    effect    = "Allow"
+    actions   = ["iot:*"]
+    resources = ["*"]
+  }
+}
