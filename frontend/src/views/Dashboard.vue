@@ -27,14 +27,6 @@
                     </v-container>
                 </v-skeleton-loader>
             </v-col>
-            
-            <v-col cols="4">
-                <v-skeleton-loader type="sentences" :loading = "loading">
-                    <v-container>
-                        <Summary :plantData="this.plantData"/>
-                    </v-container>
-                </v-skeleton-loader>
-            </v-col>
         </v-row>
     </v-container>
 </template>
