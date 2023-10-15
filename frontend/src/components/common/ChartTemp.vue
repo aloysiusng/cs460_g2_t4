@@ -24,7 +24,7 @@ export default {
         xAxis: {
           categories: [],
           title: {
-            text: 'Timestamp'
+            text: 'time_stamp'
           },
         },
         yAxis: {
@@ -54,15 +54,15 @@ export default {
     formatData(plantData) {
       console.log(plantData);
       for (var data of plantData) {
-        console.log(data.timestamp);
+        console.log(data.time_stamp);
         console.log(data.humidity_level)
-        // categories.push(data.timestamp)
-        this.chartData.xAxis.categories.push(new Date(data.timestamp).toLocaleString("en-US", this.options))
+        // categories.push(data.time_stamp)
+        this.chartData.xAxis.categories.push(new Date(data.time_stamp).toLocaleString("en-US", this.options))
         this.chartData.series[0].data.push(data.humidity_level)
       }
       // console.log(this.chartData.xAxis.categories)
-      // for (timestamp of this.chartData.xAxis.categories) {
-      //   timestamp = timestamp.slice(0, 10) + " " + timestamp.slice(11, 19)
+      // for (time_stamp of this.chartData.xAxis.categories) {
+      //   time_stamp = time_stamp.slice(0, 10) + " " + time_stamp.slice(11, 19)
       // }
       // console.log(this.chartData.xAxis.categories)
     }

@@ -57,7 +57,7 @@ while True:
 #                         'data': {
 #                             'temperature': round(temperature, 3),
 #                             'humidity': round(humidity, 3),
-#                             'timestamp': datetime.datetime.now()
+#                             'time_stamp': datetime.datetime.now()
 #                         }}))
 
 # else:

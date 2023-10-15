@@ -34,11 +34,11 @@ export const useAppStore = defineStore("app", {
       const plant_id = payload.plant_id;
       var endpoint = `${PLANTIFY_API}/get_plant_info?plant_id=${plant_id}`;
 
-      if (payload.after_timestamp) {
-        endpoint += `&after_timestamp=${payload.after_timestamp}`;
+      if (payload.after_time_stamp) {
+        endpoint += `&after_time_stamp=${payload.after_time_stamp}`;
       }
-      if (payload.before_timestamp) {
-        endpoint += `&before_timestamp=${payload.before_timestamp}`;
+      if (payload.before_time_stamp) {
+        endpoint += `&before_time_stamp=${payload.before_time_stamp}`;
       }
       try {
         const response = await axios.get(endpoint);

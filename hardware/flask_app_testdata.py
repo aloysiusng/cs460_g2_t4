@@ -125,7 +125,7 @@ def getWaterLevelUltrasonic():
         return jsonify({'status': 200,
                             'data': {
                                 'ratioWaterLevel': round(ratioWaterLevel, 3),
-                                'timestamp': datetime.datetime.now()
+                                'time_stamp': datetime.datetime.now()
                             }})
     else:
         return jsonify({'status': 404,
@@ -140,7 +140,7 @@ def getLight():
                     'data': {
                         'daytime': True,
                         # False if GPIO.input(8) == 1 else True,
-                        'timestamp': datetime.datetime.now()
+                        'time_stamp': datetime.datetime.now()
                     }})
     except:
         return jsonify({'status': 404,
@@ -158,7 +158,7 @@ def getTemperatureAndLight():
                             'data': {
                                 'temperature': round(temperature, 3),
                                 'humidity': round(humidity, 3),
-                                'timestamp': datetime.datetime.now()
+                                'time_stamp': datetime.datetime.now()
                             }})
 
     else:
@@ -174,7 +174,7 @@ def getWeather():
                 'data': {
                     'weather': "Raining" ,
                     # if not no_rain.is_active else "Sunny",
-                    'timestamp': datetime.datetime.now()
+                    'time_stamp': datetime.datetime.now()
                 }})
 
 

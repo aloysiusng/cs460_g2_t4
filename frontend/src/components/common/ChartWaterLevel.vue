@@ -24,7 +24,7 @@
           xAxis: {
             categories: [],
             title: {
-              text: 'Timestamp'
+              text: 'time_stamp'
             },
           },
           yAxis: {
@@ -54,10 +54,10 @@
       formatData(plantData) {
         console.log(plantData);
         for (var data of plantData) {
-          console.log(data.timestamp);
+          console.log(data.time_stamp);
           console.log(data.water_level)
-          // categories.push(data.timestamp)
-          this.chartData.xAxis.categories.push(new Date(data.timestamp).toLocaleString("en-US", this.options))
+          // categories.push(data.time_stamp)
+          this.chartData.xAxis.categories.push(new Date(data.time_stamp).toLocaleString("en-US", this.options))
           this.chartData.series[0].data.push(data.water_level)
         }
       }

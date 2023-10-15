@@ -4,7 +4,7 @@
             <thead>
                 <tr>
                 <th class="text-left">
-                    Timestamp
+                    time_stamp
                 </th>
                 <th class="text-left">
                     Humidity Level
@@ -25,7 +25,7 @@
                 v-for="plant in plantData"
                 :key="plant.plant_id"
                 >
-                <td>{{ plant.timestamp }}</td>
+                <td>{{ plant.time_stamp }}</td>
                 <td>{{ plant.humidity_level }} <v-progress-linear model-value=plant.humidity_level height="8" color="blue" rounded></v-progress-linear></td>
                 <td>{{ plant.moisture_level }}</td>
                 <td>{{ plant.water_level }}</td>
@@ -62,13 +62,13 @@
       methods: {
         formatData(plantData) {
           for (var data of plantData) {
-            data.timestamp = new Date(data.timestamp).toLocaleString("en-US", this.options)
+            data.time_stamp = new Date(data.time_stamp).toLocaleString("en-US", this.options)
           }
         }
         // formatData(plantData) {
         //   for (var data of plantData) {
-        //     data.timestamp = new Date(data.timestamp).toISOString()
-        //     data.timestamp = data.timestamp.slice(0, 10) + " " + data.timestamp.slice(11, 19)
+        //     data.time_stamp = new Date(data.time_stamp).toISOString()
+        //     data.time_stamp = data.time_stamp.slice(0, 10) + " " + data.time_stamp.slice(11, 19)
           }
         }
   </script>

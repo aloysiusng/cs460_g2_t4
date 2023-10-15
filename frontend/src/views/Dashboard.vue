@@ -61,7 +61,7 @@ export default {
         PlantHealth
     },
     mounted() {
-        // this.getPlantInfo();
+        this.getPlantInfo();
     },
     methods: {
         async getPlantInfo() {

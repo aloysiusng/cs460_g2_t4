@@ -148,13 +148,13 @@ def getData():
     no_rain = InputDevice(raindropsPin).is_active
     
 
-    last_watered_timestamp = None
+    last_watered_time_stamp = None
     f = open(wateringscheduleFile, "r")
     lines = f.readlines()
     if len(lines) != 0:
-        last_watered_timestamp = lines[-1].split(" ")[-1]
+        last_watered_time_stamp = lines[-1].split(" ")[-1]
     else: 
-        last_watered_timestamp = None
+        last_watered_time_stamp = None
     f.close()
     # import os
     # # get the current working directory
@@ -166,7 +166,7 @@ def getData():
     "temperature": round(temperature, 3) if temperature != None else None,
     "water_level": round(ratioWaterLevel, 3) if ratioWaterLevel != None else None, 
     "raining": True if not no_rain else False, 
-    "last_watered_timestamp": last_watered_timestamp, 
+    "last_watered_time_stamp": last_watered_time_stamp, 
     "sunlight_level" : 0 if sunlightLevel else 1,
     "plant_id": plant_id, 
     "moisture_level": 1}
