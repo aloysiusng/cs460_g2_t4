@@ -118,7 +118,7 @@ module "attach_role_and_policies" {
     data.aws_iam_policy_document.lambda_invoke_policy.json,
     data.aws_iam_policy_document.dynamodb_access_policy.json,
     data.aws_iam_policy_document.ses_identity_policy.json,
-    data.data.aws_iam_policy_document.iot_allow_policy.json
+    data.aws_iam_policy_document.iot_allow_policy.json
   ]
 }
 

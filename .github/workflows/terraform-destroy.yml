@@ -43,4 +43,7 @@ jobs:
         run: terraform init -backend-config="bucket=${AWS_BUCKET_NAME}" -backend-config="key=${AWS_BUCKET_KEY_NAME}" -backend-config="region=${AWS_REGION}"
 
       - name: Destroy Infrastructure
-        run: terraform destroy -auto-approve -input=false -no-color -var "SES_EMAIL=${SES_EMAIL}"
+        env:
+          SES_EMAIL: ${{ secrets.SES_EMAIL }}
+          IOTENDPOINT: ${{ secrets.IOTENDPOINT }}
+        run: terraform destroy -auto-approve -input=false -no-color -var "SES_EMAIL=${SES_EMAIL}" -var "IOTENDPOINT=${IOTENDPOINT}"
