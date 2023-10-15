@@ -1,7 +1,9 @@
 <template>
-    <div class="row chartElem">
+    <v-card class="row chartElem">
+      <v-card-title class="text-h5 font-weight-medium"><v-icon class="me-3">mdi-water</v-icon>Water Level</v-card-title>
+      <v-divider></v-divider>
         <highcharts class="chart" :options="chartData" :updateArgs="updateArgs"></highcharts>
-    </div>
+    </v-card>
   </template>
   
   <script>
@@ -14,10 +16,10 @@
         updateArgs: [true, true, {duration: 1000}],
         chartData: {
           chart: {
-            type: 'column'
+            type: 'area'
           },
           title: {
-            text: 'Water Level'
+            text: ''
           },
           xAxis: {
             categories: [],
@@ -37,9 +39,6 @@
           }]
         },
         options: {
-          year: "numeric",
-          month: "2-digit",
-          day: "2-digit",
           hour: "2-digit",
           minute: "2-digit",
           second: "2-digit",

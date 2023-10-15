@@ -1,9 +1,9 @@
 <template>
-    <v-container style="max-width: 1280px;">
-        <h1 class="heading-1 font-weight-medium text-center">Welcome back to Plantify!</h1>
-    </v-container>
-    <v-container>
+    <v-container :style="{'max-width': '1280px'}">
         <v-row>
+            <v-col cols="12" v-if="!loading">
+                <plant-health :lastWatered="getLastWatered()"></plant-health>
+            </v-col>
             <v-col cols="12" md="4" order-md="2">
                 <v-skeleton-loader type="article" :loading="loading" v-if="loading"></v-skeleton-loader>
                 <v-container v-if="!loading">
@@ -15,7 +15,7 @@
                 </v-skeleton-loader>
 
                 <v-container>
-                    <v-card elevation="2" class="mb-2" v-if="!loading">
+                    <v-card elevation="3" class="mb-2" v-if="!loading">
                         <ChartTemp :plantData="this.plantData" />
                     </v-card>
                 </v-container>
@@ -25,7 +25,7 @@
                 </v-skeleton-loader >
 
                 <v-container>
-                    <v-card elevation="2" class="mb-2" v-if="!loading">
+                    <v-card elevation="3" class="mb-2" v-if="!loading">
                         <ChartWaterLevel :plantData="this.plantData" />
                     </v-card>
                 </v-container>
@@ -38,6 +38,7 @@
 import ChartTemp from '@/components/common/ChartTemp.vue';
 import ChartWaterLevel from '@/components/common/ChartWaterLevel.vue';
 import Summary from '@/components/common/Summary.vue';
+import PlantHealth from '@/components/common/PlantHealth.vue';
 import { useAppStore } from '@/store/app'
 
 export default {
@@ -47,17 +48,18 @@ export default {
     },
     data() {
         return {
-            plantData: null,
+            plantData: [],
             loading: false
         }
     },
     components: {
         ChartTemp,
         ChartWaterLevel,
-        Summary
+        Summary,
+        PlantHealth
     },
     mounted() {
-        this.getPlantInfo();
+        // this.getPlantInfo();
     },
     methods: {
         async getPlantInfo() {
@@ -69,7 +71,12 @@ export default {
             const response = await this.appStore.getPlantInfo(payload)
             this.plantData = response.data
             this.loading = false
-
+        },
+        getLastWatered() {
+            if (this.plantData.length>0) {
+                const lastWatered = this.plantData[this.plantData.length - 1].last_watered_timestamp
+                return lastWatered
+            }
         }
     }
 }

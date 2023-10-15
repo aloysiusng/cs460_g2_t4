@@ -1,43 +1,83 @@
 <template>
     <v-card>
-        <p class="text-h6 font-weight-medium text-center"> Summary </p>
+        <v-card-title  class="text-h6 font-weight-medium text-start"><v-icon class="me-3">mdi-format-list-bulleted</v-icon>Summary </v-card-title>
+        <v-divider></v-divider>
+        <v-card-text class="pb-0">
+            <v-card color="info" variant="outlined">
+                <v-card-title>Latest Data</v-card-title>
+                <v-card-item>
+                    <div class="d-flex">
+                        <v-icon color="green" size="20" class="me-3">mdi-thermometer</v-icon>
+                        <p class="text-title font-weight-medium">Temperature</p>
+                        <v-spacer></v-spacer>
+                        <p class="text-title">28°C</p>
+                    </div>
+                </v-card-item>
+                <v-card-item>
+                    <div class="d-flex">
+                        <v-icon color="green" size="20" class="me-3">mdi-waves-arrow-up</v-icon>
+                        <p class="text-title font-weight-medium">Humidity</p>
+                        <v-spacer></v-spacer>
+                        <p class="text-title">28°C</p>
+                    </div>
+                </v-card-item>
+                <v-card-item>
+                    <div class="d-flex">
+                        <v-icon color="green" size="20" class="me-3">mdi-weather-pouring</v-icon>
+                        <p class="text-title font-weight-medium">Raining</p>
+                        <v-spacer></v-spacer>
+                        <p class="text-title">No</p>
+                    </div>
+                </v-card-item>
+                <v-card-item>
+                    <div class="d-flex">
+                        <v-icon color="green" size="20" class="me-3">mdi-water</v-icon>
+                        <p class="text-title font-weight-medium">Last watered</p>
+                        <v-spacer></v-spacer>
+                        <p class="text-title">28°C</p>
+                    </div>
+                </v-card-item>
+            </v-card>
+            <v-card-item>
+            </v-card-item>
+        </v-card-text>
+        
         <v-card-text>
-            <v-row>
-                <v-col cols="6">
-                    <v-row>
-                        <v-col cols="12">
-                            <p class="text-h6 font-weight-medium"> Humidity </p>
-                        </v-col>
-                        <v-col cols="12">
-                            <p class="text-h6 font-weight-medium"> Water Level </p>
-                        </v-col>
-                    </v-row>
-                </v-col>
-                <v-col cols="6">
-                    <v-row>
-                        <v-col cols="12">
-                            <p class="text-h6 font-weight-medium"> 28°C </p>
-                        </v-col>
-                        <v-col cols="12">
-                            <p class="text-h6 font-weight-medium"> 50% </p>
-                        </v-col>
-                    </v-row>
-                </v-col>
-            </v-row>
+            <v-card color="secondary" variant="outlined">
+                <v-card-title>Daily Average</v-card-title>
+                <v-card-item>
+                    <div class="d-flex">
+                        <v-icon color="green" size="20" class="me-3">mdi-thermometer</v-icon>
+                        <p class="text-title font-weight-medium">Temperature</p>
+                        <v-spacer></v-spacer>
+                        <p class="text-title">28°C</p>
+                    </div>
+                </v-card-item>
+                <v-card-item>
+                    <div class="d-flex">
+                        <v-icon color="green" size="20" class="me-3">mdi-waves-arrow-up</v-icon>
+                        <p class="text-title font-weight-medium">Humidity</p>
+                        <v-spacer></v-spacer>
+                        <p class="text-title">28°C</p>
+                    </div>
+                </v-card-item>
+            </v-card>
+            <v-card-item>
+            </v-card-item>
         </v-card-text>
     </v-card>
-  </template>
+</template>
   
-  <script>
-  export default {
+<script>
+export default {
     props: {
         plantData: Object
     },
-    data () {
-      return {
-      }
+    data() {
+        return {
+        }
     },
-    mounted(){
+    mounted() {
 
     },
     // methods:{
@@ -49,21 +89,23 @@
     //         return averageWaterLevel;  
     //     }
     // }
-  }
-  </script>
+}
+</script>
   
-  <style scoped>
-  input[type="color"]::-webkit-color-swatch-wrapper {
+<style scoped>
+input[type="color"]::-webkit-color-swatch-wrapper {
     padding: 0;
-  }
-  #colorPicker {
+}
+
+#colorPicker {
     border: 0;
     padding: 0;
     margin: 0;
     width: 30px;
     height: 30px;
-  }
-  .numberInput {
+}
+
+.numberInput {
     width: 30px;
-  }
-  </style>
+}
+</style>
