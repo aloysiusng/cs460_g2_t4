@@ -1,7 +1,7 @@
 import RPi.GPIO as GPIO
 import time
  
-RelayPin = 11 # Set pin11 as Out
+RelayPin = 13 # Set pin11 as Out
  
 def onswitch(RelayPin = RelayPin):
     GPIO.setmode(GPIO.BOARD) # Set GPIO as numbering
