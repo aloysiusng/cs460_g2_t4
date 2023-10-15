@@ -40,15 +40,15 @@
     mounted(){
 
     },
-    methods:{
-        getAverageWaterLevel(data){
-            // Calculate the sum of water_level values
-            const sumWaterLevel = data.reduce((acc, item) => acc + item.water_level, 0);
-            // Calculate the average
-            const averageWaterLevel = sumWaterLevel / data.length; 
-            return averageWaterLevel;  
-        }
-    }
+    // methods:{
+    //     getAverageWaterLevel(data){
+    //         // Calculate the sum of water_level values
+    //         const sumWaterLevel = data.reduce((acc, item) => acc + item.water_level, 0);
+    //         // Calculate the average
+    //         const averageWaterLevel = sumWaterLevel / data.length; 
+    //         return averageWaterLevel;  
+    //     }
+    // }
   }
   </script>
   
