@@ -5,27 +5,30 @@
     <v-container>
         <v-row>
             <v-col cols="12" md="4" order-md="2">
-                <v-skeleton-loader type="sentences" :loading = "loading">
-                    <v-container>
-                        <Summary />
-                    </v-container>
-                </v-skeleton-loader>
+                <v-skeleton-loader type="table" :loading="loading" v-if="loading"></v-skeleton-loader>
+                <v-container>
+                    <Summary />
+                </v-container>
             </v-col>
             <v-col cols="12" md="8" order-md="1">
-                <v-skeleton-loader type="table" :loading = "loading">
-                    <v-container>
-                        <v-card elevation="2" class="mb-2" v-if="!loading">
-                            <ChartTemp :plantData="this.plantData" />
-                        </v-card>
-                    </v-container>
+                <v-skeleton-loader type="image" :loading="loading" v-if="loading">
                 </v-skeleton-loader>
-                <v-skeleton-loader type="table" :loading = "loading">
-                    <v-container>
-                        <v-card elevation="2" class="mb-2" v-if="!loading">
-                            <ChartWaterLevel :plantData="this.plantData "/>
-                        </v-card>
-                    </v-container>
-                </v-skeleton-loader>
+
+                <v-container>
+                    <v-card elevation="2" class="mb-2" v-if="!loading">
+                        <ChartTemp :plantData="this.plantData" />
+                    </v-card>
+                </v-container>
+
+
+                <v-skeleton-loader type="image" :loading="loading" v-if="loading">
+                </v-skeleton-loader >
+
+                <v-container>
+                    <v-card elevation="2" class="mb-2" v-if="!loading">
+                        <ChartWaterLevel :plantData="this.plantData" />
+                    </v-card>
+                </v-container>
             </v-col>
         </v-row>
     </v-container>

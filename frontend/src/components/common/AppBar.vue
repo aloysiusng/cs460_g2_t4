@@ -1,7 +1,6 @@
 <template>
     <v-container>
         <v-app-bar prominent>
-
             <v-container class="d-flex my-auto pa-0" style="max-width: 1280px;">
                 <div class="d-block d-sm-none d-md-none d-lg-none d-xl-none">
                     <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
@@ -11,9 +10,8 @@
                 <v-spacer></v-spacer>
 
                 <div class="d-none d-md-block d-sm-block my-auto">
-                    <v-btn rounded variant="text" to="/">Dashboard</v-btn>
-                    <v-btn rounded variant="text" to="logs">Logs</v-btn>
-
+                    <v-btn rounded variant="text" to="/dashboard">Dashboard</v-btn>
+                    <v-btn rounded variant="text" to="/logs">Logs</v-btn>
                 </div>
 
                 <v-spacer></v-spacer>
@@ -43,11 +41,6 @@
                         </v-list>
                     </v-menu>
                 </div>
-
-
-
-
-
             </v-container>
 
 
