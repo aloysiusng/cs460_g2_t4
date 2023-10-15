@@ -7,9 +7,9 @@ resource "aws_dynamodb_table" "sensor_data" {
     name = "plant_id"
     type = "S"
   }
-  range_key = "timestamp"
+  range_key = "time_stamp"
   attribute {
-    name = "timestamp"
+    name = "time_stamp"
     type = "N"
   }
 }
@@ -79,6 +79,22 @@ resource "aws_apigatewayv2_stage" "cs460_api_gw" {
 # ======================================= SES  ==========================================================
 resource "aws_sesv2_email_identity" "cs460_email_identity" {
   email_identity = var.SES_EMAIL
+}
+
+# ======================================= IoT ==========================================================
+resource "aws_iot_topic_rule" "plant_sensor_data_rule" {
+  name        = "plant_sensor_data_rule"
+  description = "Rule for plant sensor data"
+  enabled     = true
+  sql         = "SELECT plant_id, timestamp() as time_stamp, humidity_level, temperature, water_level, raining, last_watered_timestamp, sunlight_level, moisture_level FROM 'device/+/data'"
+  sql_version = "2016-03-23"
+
+  dynamodbv2 {
+    put_item {
+      table_name = aws_dynamodb_table.sensor_data.name
+    }
+    role_arn = aws_iam_role.cs460_lambda_role.arn
+  }
 }
 
 # ======================================= LAMBDA IAM ==========================================================
