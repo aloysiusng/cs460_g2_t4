@@ -1,17 +1,22 @@
 const AWS = require("aws-sdk");
 
 exports.handler = async (event, context) => {
-  // TODO implement
-  const plant_id = JSON.parse(event.body).plant_id;
-  const payload = JSON.parse(event.body).payload;
+  const body = JSON.parse(event.body);
+  if (!body.plant_id || !body.payload) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify("Missing plant_id or payload"),
+    };
+  }
+
   const iotData = new AWS.IotData({
     endpoint: process.env.IOTENDPOINT, // IoTEndpoint
   });
 
   const data = await iotData
     .publish({
-      topic: `water/${plant_id}/data`,
-      payload: JSON.stringify(payload),
+      topic: `water/${body.plant_id}/data`,
+      payload: JSON.stringify(body.payload),
       qos: 1,
     })
     .promise();
