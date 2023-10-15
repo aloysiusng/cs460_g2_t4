@@ -1,10 +1,5 @@
 <template>
-    <v-container style="max-width: 1280px;">
-        <h1 class="heading-1 font-weight-medium text-center">Welcome back to Plantify!</h1>
-    </v-container>
-
-    {{ thresholdData }}
-    <v-container v-if="loading">
+    <v-container v-if="!loading">
         <v-container :style="{ 'max-width': '1280px' }">
             <v-row>
                 <v-col cols="12" v-if="!loading">
@@ -105,13 +100,14 @@ export default {
             this.loading = false
 
         },
-    },
-    getLastWatered() {
-        if (this.plantData.length > 0) {
-            const lastWatered = this.plantData[this.plantData.length - 1].last_watered_timestamp
-            return lastWatered
+        getLastWatered() {
+            if (this.plantData.length > 0) {
+                const lastWatered = this.plantData[this.plantData.length - 1].last_watered_timestamp
+                return lastWatered
+            }
         }
-    }
+    },
+
 }
 </script>
 
