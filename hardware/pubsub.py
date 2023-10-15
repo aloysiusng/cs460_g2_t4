@@ -55,6 +55,11 @@ def on_message_received(topic, payload, dup, qos, retain, **kwargs):
     print("Received message from topic '{}': {}".format(topic, payload))
     global received_count
     received_count += 1
+
+    wateredSuccess = waterPlant()
+    while not wateredSuccess:
+        wateredSuccess = waterPlant()
+
     if received_count == cmdData.input_count:
         received_all_event.set()
 
@@ -72,9 +77,9 @@ def on_connection_failure(connection, callback_data):
 def on_connection_closed(connection, callback_data):
     print("Connection closed")
 
-def log(messsage):
-    f = open("log_iot_device.txt", "a")
-    f.write(messsage)
+def log(message, file):
+    f = open(file, "a")
+    f.write(message + "\n")
     f.close()
 
 import RPi.GPIO as GPIO
@@ -154,14 +159,38 @@ def getData():
     # # print output to the console
     # print(f"current_working_directory: {current_working_directory}")
 
-    return {"humidity_level": round(humidity, 3), 
-    "temperature": round(temperature, 3),
-    "water_level": round(ratioWaterLevel, 3), 
+    return {"humidity_level": round(humidity, 3) if humidity != None else None, 
+    "temperature": round(temperature, 3) if temperature != None else None,
+    "water_level": round(ratioWaterLevel, 3) if ratioWaterLevel != None else None, 
     "raining": True if not no_rain else False, 
     "last_watered_timestamp": last_watered_timestamp, 
     "sunlight_level" : 0 if sunlightLevel else 1,
-    "plant_id": "23",
-    "moisture_level": 20}
+    "plant_id": "c325ae6d-5554-4605-bac1-b5bad7af14e1", 
+    "moisture_level": 1}
+
+
+def onswitch(RelayPin = RelayPin):
+    GPIO.setmode(GPIO.BOARD) # Set GPIO as numbering
+    GPIO.setup(RelayPin, GPIO.OUT)
+    GPIO.output(RelayPin, GPIO.HIGH)
+
+
+def offswitch(RelayPin = RelayPin):
+    GPIO.output(RelayPin, GPIO.HIGH)
+    GPIO.cleanup()
+
+    
+def waterPlant():
+    try:
+        # raise Exception("Cannot")
+        onswitch(RelayPin)
+        time.sleep(5)
+        
+        offswitch(RelayPin)
+        log(f"watered at {datetime.datetime.now()}", "wateringschedule.txt")
+        return True
+    except:
+        return False
 
 
 
@@ -206,8 +235,8 @@ if __name__ == '__main__':
     print("Connected!")
 
     message_count = cmdData.input_count
-    message_topic = cmdData.input_topic
-    message_topic = "device2/23/data"
+    # message_topic = cmdData.input_topic
+    message_topic = "device2/c325ae6d-5554-4605-bac1-b5bad7af14e1/data"
     # message_string = cmdData.input_message
     import json
 #     message_string = {
@@ -231,15 +260,19 @@ if __name__ == '__main__':
 
     message_string = getData()
 
-    # # Subscribe -  TODO: to get watering requests???
-    # print("Subscribing to topic '{}'...".format(message_topic))
-    # subscribe_future, packet_id = mqtt_connection.subscribe(
-    #     topic=message_topic,
-    #     qos=mqtt.QoS.AT_LEAST_ONCE,
-    #     callback=on_message_received)
 
-    # subscribe_result = subscribe_future.result()
-    # print("Subscribed with {}".format(str(subscribe_result['qos'])))
+
+    watering_topic = "water/c325ae6d-5554-4605-bac1-b5bad7af14e1/data"
+    topic = watering_topic
+    # Subscribe -  TODO: to get watering requests???
+    print("Subscribing to topic '{}'...".format(topic))
+    subscribe_future, packet_id = mqtt_connection.subscribe(
+        topic=topic,
+        qos=mqtt.QoS.AT_LEAST_ONCE,
+        callback=on_message_received)
+
+    subscribe_result = subscribe_future.result()
+    print("Subscribed with {}".format(str(subscribe_result['qos'])))
 
     # Publish message to server desired number of times.
     # This step is skipped if message is blank.
@@ -265,7 +298,9 @@ if __name__ == '__main__':
             time.sleep(3)
             publish_count += 1
 
-            log(f"Published {message_string} to AWS Iot Core")
+            # log(f"Published {message_string} to AWS Iot Core\n")
+
+            subscribe_result = subscribe_future.result()
 
     # Wait for all messages to be received.
     # This waits forever if count was set to 0.
