@@ -5,25 +5,16 @@
                 <plant-health :lastWatered="getLastWatered()"></plant-health>
             </v-col>
             <v-col cols="12" md="4" order-md="2">
-                <v-skeleton-loader type="article" :loading="loading" v-if="loading"></v-skeleton-loader>
-                <v-container v-if="!loading">
+                <v-container>
                     <Summary />
                 </v-container>
             </v-col>
             <v-col cols="12" md="8" order-md="1">
-                <v-skeleton-loader type="image" :loading="loading" v-if="loading">
-                </v-skeleton-loader>
-
                 <v-container>
                     <v-card elevation="3" class="mb-2" v-if="!loading">
                         <ChartTemp :plantData="this.plantData" />
                     </v-card>
                 </v-container>
-
-
-                <v-skeleton-loader type="image" :loading="loading" v-if="loading">
-                </v-skeleton-loader >
-
                 <v-container>
                     <v-card elevation="3" class="mb-2" v-if="!loading">
                         <ChartWaterLevel :plantData="this.plantData" />
@@ -31,6 +22,17 @@
                 </v-container>
             </v-col>
         </v-row>
+    </v-container>
+    <v-container v-if=" loading == false && plantData == null ">
+        <v-card>
+            <v-card-text>
+                <v-row>
+                    <v-col cols="12">
+                        <p class="text-h6 font-weight-medium text-center"> No data available </p>
+                    </v-col>
+                </v-row>
+            </v-card-text>
+        </v-card>
     </v-container>
 </template>
 
