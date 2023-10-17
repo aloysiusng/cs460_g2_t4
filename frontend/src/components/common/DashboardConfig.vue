@@ -6,12 +6,13 @@
         </v-card-subtitle>
         <v-card-item class="pt-0">
             <div class="d-flex flex-wrap">
-                <v-switch hide-details="auto" inset label="Live data" v-model="this.appStore.liveData" class="me-3"></v-switch>
+                <!-- Refresh data -->
+                <v-btn prepend-icon="mdi-refresh" class="my-auto" color="success">Refresh data</v-btn> 
+                <v-divider vertical class="mx-3"></v-divider>
                 <!-- Export and print webpage -->
-                <v-btn prepend-icon="mdi-export" class="me-3">Export dashboard</v-btn>
-                <!-- dark-mode -->
-                <v-btn prepend-icon="mdi-lightbulb-on" color="black">Dark mode</v-btn>
-
+                <v-btn prepend-icon="mdi-export" class="my-auto" @click="printPage()">Export dashboard</v-btn>
+                <v-divider vertical class="mx-3"></v-divider>
+                <v-switch hide-details="auto" inset label="Live data" v-model="this.appStore.liveData" class="me-3" color="success"></v-switch>
             </div>
 
         </v-card-item>
@@ -25,6 +26,9 @@ export default {
     setup() {
         const appStore = useAppStore()
         return { appStore }
+    },
+    printPage() {
+        window.print();
     }
 }
 </script>

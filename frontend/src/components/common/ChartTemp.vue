@@ -53,7 +53,6 @@ export default {
   },
   methods: {
     formatData(plantData) {
-      console.log(plantData);
       for (var data of plantData) {
         // categories.push(data.time_stamp)
         this.chartData.xAxis.categories.push(new Date(data.time_stamp).toLocaleString("en-US", this.options))

@@ -2,26 +2,24 @@
     <v-container>
         <v-container :style="{ 'max-width': '1280px' }">
             <v-row>
-                <v-col cols="12" v-if="!loading">
+                <v-col cols="12" v-if="!firstLoading">
                     <plant-health :lastWatered="getLastWatered()"></plant-health>
                 </v-col>
-                <v-col cols="12">
-                    <dashboard-config />
-                </v-col>
-                <v-col cols="12" md="4" order-md="2">
+                <v-col cols="12" md="4">
                     <v-container>
                         <Summary />
                     </v-container>
                 </v-col>
-                <v-col cols="12" md="8" order-md="1">
+                <v-col cols="12" md="8">
                     <v-container>
+                        <dashboard-config class="mb-5" />
                         <v-skeleton-loader type="heading, image" v-if="firstLoading"></v-skeleton-loader>
 
                         <v-card elevation="3" class="mb-2" v-if="!firstLoading">
                             <ChartTemp :plantData="this.plantData" />
                         </v-card>
                     </v-container>
-                    <v-container>
+                    <v-container class="pt-0">
                         <v-skeleton-loader type="heading, image" v-if="firstLoading"></v-skeleton-loader>
 
                         <v-card elevation="3" class="mb-2" v-if="!firstLoading">
@@ -96,6 +94,7 @@ export default {
     },
     methods: {
         startPolling() {
+            console.log("polling started....")
             if (this.appStore.liveData) {
                 this.pollIntervalId = setInterval(async () => {
                     await this.getPlantInfo();
@@ -103,6 +102,7 @@ export default {
             }
         },
         stopPolling() {
+            console.log("stopped polling")
             if (this.pollIntervalId !== null) {
                 clearInterval(this.pollIntervalId);
                 this.pollIntervalId = null;
