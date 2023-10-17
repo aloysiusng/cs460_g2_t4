@@ -1,9 +1,12 @@
 <template>
-    <v-container v-if="!loading">
+    <v-container>
         <v-container :style="{ 'max-width': '1280px' }">
             <v-row>
                 <v-col cols="12" v-if="!loading">
                     <plant-health :lastWatered="getLastWatered()"></plant-health>
+                </v-col>
+                <v-col cols="12">
+                    <dashboard-config />
                 </v-col>
                 <v-col cols="12" md="4" order-md="2">
                     <v-container>
@@ -12,13 +15,17 @@
                 </v-col>
                 <v-col cols="12" md="8" order-md="1">
                     <v-container>
-                        <v-card elevation="3" class="mb-2" v-if="!loading">
+                        <v-skeleton-loader type="heading, image" v-if="firstLoading"></v-skeleton-loader>
+
+                        <v-card elevation="3" class="mb-2" v-if="!firstLoading">
                             <ChartTemp :plantData="this.plantData" />
                         </v-card>
                     </v-container>
                     <v-container>
-                        <v-card elevation="3" class="mb-2" v-if="!loading">
-                            <ChartWaterLevel :plantData="this.plantData" />
+                        <v-skeleton-loader type="heading, image" v-if="firstLoading"></v-skeleton-loader>
+
+                        <v-card elevation="3" class="mb-2" v-if="!firstLoading">
+                            <ChartWaterLevel :plantData="this.plantData" @refresh-data="this.getPlantInfo()" />
                         </v-card>
                     </v-container>
                 </v-col>
@@ -43,7 +50,9 @@ import ChartTemp from '@/components/common/ChartTemp.vue';
 import ChartWaterLevel from '@/components/common/ChartWaterLevel.vue';
 import Summary from '@/components/common/Summary.vue';
 import PlantHealth from '@/components/common/PlantHealth.vue';
+import DashboardConfig from '@/components/common/DashboardConfig.vue';
 import { useAppStore } from '@/store/app'
+
 
 export default {
     setup() {
@@ -54,19 +63,51 @@ export default {
         return {
             plantData: [],
             thresholdData: [],
-            loading: false
+            loading: false,
+            pollIntervalId: null,
+            firstLoading: false,
         }
     },
     components: {
         ChartTemp,
         ChartWaterLevel,
         Summary,
-        PlantHealth
+        PlantHealth,
+        DashboardConfig
     },
-    mounted() {
-        this.getPlantInfo();
+    watch: {
+        'appStore.liveData': function (newLiveDataValue) {
+            // The 'appStore.liveData' value has changed, update polling accordingly.
+            if (newLiveDataValue) {
+                this.startPolling();
+            } else {
+                this.stopPolling();
+            }
+        },
+    },
+    async mounted() {
+        this.firstLoading = true;
+        await this.getPlantInfo();
+        this.firstLoading = false
+        this.startPolling();
+    },
+    beforeUnmount() {
+        this.stopPolling(); // Stop polling when the component is unmounted
     },
     methods: {
+        startPolling() {
+            if (this.appStore.liveData) {
+                this.pollIntervalId = setInterval(async () => {
+                    await this.getPlantInfo();
+                }, 2000)
+            }
+        },
+        stopPolling() {
+            if (this.pollIntervalId !== null) {
+                clearInterval(this.pollIntervalId);
+                this.pollIntervalId = null;
+            }
+        },
         async getPlantInfo() {
             this.loading = true;
             const payload = {

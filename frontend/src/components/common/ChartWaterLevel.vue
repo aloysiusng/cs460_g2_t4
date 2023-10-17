@@ -1,6 +1,6 @@
 <template>
     <v-card class="row chartElem">
-      <v-card-title class="text-h5 font-weight-medium"><v-icon class="me-3">mdi-water</v-icon>Water Level</v-card-title>
+      <v-card-title class="text-h5 font-weight-medium"><v-icon class="me-3">mdi-water</v-icon>Water Level<v-spacer></v-spacer><v-btn icon="mdi-refresh" variant="text" @click="this.$emit('refresh-data')"></v-btn></v-card-title>
       <v-divider></v-divider>
         <highcharts class="chart" :options="chartData" :updateArgs="updateArgs"></highcharts>
     </v-card>
@@ -54,8 +54,6 @@
       formatData(plantData) {
         console.log(plantData);
         for (var data of plantData) {
-          console.log(data.time_stamp);
-          console.log(data.water_level)
           // categories.push(data.time_stamp)
           this.chartData.xAxis.categories.push(new Date(data.time_stamp).toLocaleString("en-US", this.options))
           this.chartData.series[0].data.push(data.water_level)
@@ -65,8 +63,11 @@
     watch: {
       plantData: {
         handler(newValue) {
-          // Update the series data when the plantData prop changes
-          this.chartTemp.series[0].data = this.formatData(newValue);
+          if(newValue){
+            this.chartData.xAxis.categories = []
+            this.chartData.series[0].data = []
+            this.formatData(newValue)
+          }
         },
         deep: true
         }

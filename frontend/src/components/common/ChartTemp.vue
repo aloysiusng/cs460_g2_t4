@@ -1,6 +1,7 @@
 <template>
   <v-card class="row chartElem">
-    <v-card-title class="text-h5 font-weight-medium"><v-icon class="me-3">mdi-weather-partly-rainy</v-icon>Temperature and Humidity</v-card-title>
+    <v-card-title class="text-h5 font-weight-medium"><v-icon class="me-3">mdi-weather-partly-rainy</v-icon>Temperature and
+      Humidity</v-card-title>
     <v-divider></v-divider>
     <highcharts class="chart" :options="chartData" :updateArgs="updateArgs"></highcharts>
   </v-card>
@@ -28,10 +29,10 @@ export default {
           },
         },
         yAxis: {
-            title: {
-              text: 'Humidity'
-            },
+          title: {
+            text: 'Humidity'
           },
+        },
         series: [{
           name: 'Humidity Level',
           data: [],
@@ -45,17 +46,15 @@ export default {
       },
     }
   },
-  mounted(){
-    if(this.plantData)[
+  mounted() {
+    if (this.plantData) {
       this.formatData(this.plantData)
-    ]
+    }
   },
   methods: {
     formatData(plantData) {
       console.log(plantData);
       for (var data of plantData) {
-        console.log(data.time_stamp);
-        console.log(data.humidity_level)
         // categories.push(data.time_stamp)
         this.chartData.xAxis.categories.push(new Date(data.time_stamp).toLocaleString("en-US", this.options))
         this.chartData.series[0].data.push(data.humidity_level)
@@ -70,8 +69,12 @@ export default {
   watch: {
     plantData: {
       handler(newValue) {
-        // Update the series data when the plantData prop changes
-        this.chartTemp.series[0].data = this.formatData(newValue);
+        if (newValue) {
+          this.chartData.xAxis.categories = []
+          this.chartData.series[0].data = []
+          // Update the series data when the plantData prop changes
+          this.formatData(newValue);
+        }
       },
       deep: true
     }
@@ -83,6 +86,7 @@ export default {
 input[type="color"]::-webkit-color-swatch-wrapper {
   padding: 0;
 }
+
 #colorPicker {
   border: 0;
   padding: 0;
@@ -90,6 +94,7 @@ input[type="color"]::-webkit-color-swatch-wrapper {
   width: 30px;
   height: 30px;
 }
+
 .numberInput {
   width: 30px;
 }

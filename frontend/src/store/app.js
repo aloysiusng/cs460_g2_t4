@@ -6,7 +6,7 @@ const PLANTIFY_API = import.meta.env.VITE_PLANTIFY_APIGATEWAY_URL;
 
 export const useAppStore = defineStore("app", {
   state: () => ({
-    //
+    liveData: true,
   }),
   actions: {
     // Not used.... as login is mocked
