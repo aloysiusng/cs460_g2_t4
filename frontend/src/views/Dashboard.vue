@@ -9,6 +9,10 @@
                     <v-container>
                         <Summary />
                     </v-container>
+                    <v-container>
+                        <ThresholdForm />
+                    </v-container>
+
                 </v-col>
                 <v-col cols="12" md="8">
                     <v-container>
@@ -49,6 +53,7 @@ import ChartWaterLevel from '@/components/common/ChartWaterLevel.vue';
 import Summary from '@/components/common/Summary.vue';
 import PlantHealth from '@/components/common/PlantHealth.vue';
 import DashboardConfig from '@/components/common/DashboardConfig.vue';
+import ThresholdForm from '@/components/common/ThresholdForm.vue';
 import { useAppStore } from '@/store/app'
 
 
@@ -71,7 +76,8 @@ export default {
         ChartWaterLevel,
         Summary,
         PlantHealth,
-        DashboardConfig
+        DashboardConfig,
+        ThresholdForm
     },
     watch: {
         'appStore.liveData': function (newLiveDataValue) {
