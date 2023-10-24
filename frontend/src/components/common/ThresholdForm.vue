@@ -10,7 +10,7 @@
                         <v-icon color="green" size="20" class="me-3">mdi-thermometer</v-icon>
                         <p class="text-title font-weight-medium">Temperature</p>
                         <v-spacer></v-spacer>
-                        <p class="text-title">28°C</p>
+                        <p class="text-title">{{ this.temperature }} °C</p>
                     </div>
                 </v-card-item>
                 <v-card-item>
@@ -18,7 +18,15 @@
                         <v-icon color="green" size="20" class="me-3">mdi-waves-arrow-up</v-icon>
                         <p class="text-title font-weight-medium">Humidity</p>
                         <v-spacer></v-spacer>
-                        <p class="text-title">28°C</p>
+                        <p class="text-title">{{ this.humidity }} %</p>
+                    </div>
+                </v-card-item>
+                <v-card-item>
+                    <div class="d-flex">
+                        <v-icon color="green" size="20" class="me-3">mdi-water</v-icon>
+                        <p class="text-title font-weight-medium">Water Level</p>
+                        <v-spacer></v-spacer>
+                        <p class="text-title">{{ this.waterLevel }} ml</p>
                     </div>
                 </v-card-item>
             </v-card>
@@ -49,6 +57,17 @@
                     step="1"
                     suffix="%">
                 </v-text-field>
+                <v-text-field
+                    label="Water Level"
+                    outlined
+                    class="mt-3"
+                    v-model="waterLevel"
+                    type="number"
+                    min="0"
+                    max="100"
+                    step="1"
+                    suffix="ml">
+                </v-text-field>
                 <v-btn color="green" class="mt-3" block>Save</v-btn>
             </v-form>
         </v-card-item>
@@ -62,12 +81,13 @@ export default {
     },
     data() {
         return {
-            temperature: 0,
-            humidity: 0,
+            temperature: 25,
+            humidity: 50,
+            waterLevel: 25,
         }
     },
     mounted() {
-        
+
     },
 }
 </script>
