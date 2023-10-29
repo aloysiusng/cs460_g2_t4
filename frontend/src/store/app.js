@@ -72,8 +72,7 @@ export const useAppStore = defineStore("app", {
         const response = await axios.post(endpoint, payload);
 
         if (response.status == 200) {
-          console.log(response)
-          return response.data;
+          return response;
         }
       } catch (error) {
         console.error("Unable to update: ", error);
