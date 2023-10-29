@@ -15,12 +15,16 @@ exports.handler = async (event, context) => {
     const requestBody = JSON.parse(event.body);
     const { plant_id, min_water_level, min_moisture_level } = requestBody;
 
-    if (!plant_id || typeof min_water_level !== 'number' || typeof min_moisture_level !== 'number') {
+    // Convert parameters to numbers if they are provided as strings
+    const numericMinWaterLevel = parseFloat(min_water_level);
+    const numericMinMoistureLevel = parseFloat(min_moisture_level);
+
+    if (!plant_id || isNaN(numericMinWaterLevel) || isNaN(numericMinMoistureLevel)) {
         return {
             statusCode: 400,
             body: JSON.stringify({
                 message: "Invalid request parameters",
-            }),
+            },
         };
     }
 
@@ -30,8 +34,8 @@ exports.handler = async (event, context) => {
         Key: { plant_id },
         UpdateExpression: "SET min_water_level = :min_water_level, min_moisture_level = :min_moisture_level",
         ExpressionAttributeValues: {
-            ":min_water_level": min_water_level,
-            ":min_moisture_level": min_moisture_level,
+            ":min_water_level": numericMinWaterLevel,
+            ":min_moisture_level": numericMinMoistureLevel,
         },
         ReturnValues: "ALL_NEW", // Change this as needed
     };
