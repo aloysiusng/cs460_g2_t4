@@ -10,15 +10,15 @@
                         <v-icon color="green" size="20" class="me-3">mdi-thermometer</v-icon>
                         <p class="text-title font-weight-medium">Temperature</p>
                         <v-spacer></v-spacer>
-                        <p class="text-title">{{ this.temperature }} °C</p>
+                        <p class="text-title">{{ temperature }} °C</p>
                     </div>
                 </v-card-item>
                 <v-card-item>
                     <div class="d-flex">
                         <v-icon color="green" size="20" class="me-3">mdi-waves-arrow-up</v-icon>
-                        <p class="text-title font-weight-medium">Humidity</p>
+                        <p class="text-title font-weight-medium">Moisture</p>
                         <v-spacer></v-spacer>
-                        <p class="text-title">{{ this.humidity }} %</p>
+                        <p class="text-title">{{ moisture }} %</p>
                     </div>
                 </v-card-item>
                 <v-card-item>
@@ -26,7 +26,7 @@
                         <v-icon color="green" size="20" class="me-3">mdi-water</v-icon>
                         <p class="text-title font-weight-medium">Water Level</p>
                         <v-spacer></v-spacer>
-                        <p class="text-title">{{ this.waterLevel }} ml</p>
+                        <p class="text-title">{{ waterLevel }} ml</p>
                     </div>
                 </v-card-item>
             </v-card>
@@ -39,7 +39,7 @@
                     label="Temperature"
                     outlined
                     class="mt-3"
-                    v-model="temperature"
+                    v-model="temperatureInput"
                     type="number"
                     min="0"
                     max="100"
@@ -47,10 +47,10 @@
                     suffix="°C">
                 </v-text-field>
                 <v-text-field
-                    label="Humidity"
+                    label="Moisture"
                     outlined
                     class="mt-3"
-                    v-model="humidity"
+                    v-model="moistureInput"
                     type="number"
                     min="0"
                     max="100"
@@ -61,33 +61,59 @@
                     label="Water Level"
                     outlined
                     class="mt-3"
-                    v-model="waterLevel"
+                    v-model="waterLevelInput"
                     type="number"
                     min="0"
                     max="100"
                     step="1"
                     suffix="ml">
                 </v-text-field>
-                <v-btn color="green" class="mt-3" block>Save</v-btn>
+                <v-btn @click="updateThreshold" color="green" class="mt-3" block>Update</v-btn>
             </v-form>
         </v-card-item>
     </v-card>
 </template>
   
 <script>
+import { useAppStore } from '@/store/app'
 export default {
     props: {
-        
+        thresholdData: Object
+    },
+    setup(){
+        const appStore = useAppStore()
+        return { appStore }
     },
     data() {
         return {
-            temperature: 25,
-            humidity: 50,
-            waterLevel: 25,
+            temperature: this.thresholdData[0].temperature_threshold,
+            moisture: this.thresholdData[0].min_moisture_level,
+            waterLevel: this.thresholdData[0].min_water_level,
+            temperatureInput: this.thresholdData[0].temperature_threshold,
+            moistureInput: this.thresholdData[0].min_moisture_level,
+            waterLevelInput: this.thresholdData[0].min_water_level,
         }
     },
-    mounted() {
+    methods: {
+        async updateThreshold() {
+            const payload = {
+                min_water_level: this.waterLevelInput,
+                moisture_threshold: this.moistureInput,
+                plant_id: "c325ae6d-5554-4605-bac1-b5bad7af14e1",
+                temperature_threshold: this.temperatureInput,
+                water_threshold: this.waterLevelInput,
+                min_moisture_level: this.moistureInput,
+            }
+            const response = await this.appStore.updateThresholdData(payload)
+            if (response.status === 200) {
+                console.log(response.data)
+                this.temperature = this.temperatureInput
+                this.moisture = this.moistureInput
+                this.waterLevel = this.waterLevelInput
+                console.log(this.temperature)
+            }
 
+        }
     },
 }
 </script>

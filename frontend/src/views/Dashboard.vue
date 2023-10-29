@@ -6,11 +6,11 @@
                     <plant-health :lastWatered="getLastWatered()"></plant-health>
                 </v-col>
                 <v-col cols="12" md="4">
-                    <v-container>
+                    <v-container v-if="!firstLoading">
                         <Summary />
                     </v-container>
-                    <v-container>
-                        <ThresholdForm />
+                    <v-container v-if="!firstLoading">
+                        <ThresholdForm :thresholdData="this.thresholdData" @updateThreshold="getThreshold"/>
                     </v-container>
 
                 </v-col>
@@ -68,7 +68,7 @@ export default {
             thresholdData: [],
             loading: false,
             pollIntervalId: null,
-            firstLoading: false,
+            firstLoading: true,
         }
     },
     components: {
@@ -90,8 +90,8 @@ export default {
         },
     },
     async mounted() {
-        this.firstLoading = true;
         await this.getPlantInfo();
+        await this.getThreshold();
         this.firstLoading = false
         this.startPolling();
     },
