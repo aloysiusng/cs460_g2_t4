@@ -1,7 +1,6 @@
 <template>
     <div>
 
-
         <v-container v-if="!loading">
             <v-skeleton-loader type="table-row-divider, table-row@10" :loading="loading" v-if="loading">
             </v-skeleton-loader>
