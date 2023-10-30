@@ -10,7 +10,7 @@
                         <Summary />
                     </v-container>
                     <v-container v-if="!firstLoading">
-                        <ThresholdForm :thresholdData="this.thresholdData" @updateThreshold="getThreshold"/>
+                        <ThresholdForm :thresholdData="this.thresholdData"/>
                     </v-container>
 
                 </v-col>
@@ -48,12 +48,12 @@
 </template>
 
 <script>
-import ChartTemp from '@/components/common/ChartTemp.vue';
-import ChartWaterLevel from '@/components/common/ChartWaterLevel.vue';
-import Summary from '@/components/common/Summary.vue';
-import PlantHealth from '@/components/common/PlantHealth.vue';
-import DashboardConfig from '@/components/common/DashboardConfig.vue';
-import ThresholdForm from '@/components/common/ThresholdForm.vue';
+import ChartTemp from '@/components/dashboard/ChartTemp.vue';
+import ChartWaterLevel from '@/components/dashboard/ChartWaterLevel.vue';
+import Summary from '@/components/dashboard/Summary.vue';
+import PlantHealth from '@/components/dashboard/PlantHealth.vue';
+import DashboardConfig from '@/components/dashboard/DashboardConfig.vue';
+import ThresholdForm from '@/components/dashboard/ThresholdForm.vue';
 import { useAppStore } from '@/store/app'
 
 

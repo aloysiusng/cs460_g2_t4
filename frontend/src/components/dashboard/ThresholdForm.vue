@@ -72,10 +72,16 @@
             </v-form>
         </v-card-item>
     </v-card>
+    <template>
+        <Modal v-model="modal.show" :title="modal.title" :message="modal.message" :icon="modal.icon"
+            @closeModal="closeModal" :color="modal.color" :closeOnClick="true"/>
+    </template>
 </template>
   
 <script>
 import { useAppStore } from '@/store/app'
+import Modal from '@/components/common/Modal.vue'
+
 export default {
     props: {
         thresholdData: Object
@@ -83,6 +89,9 @@ export default {
     setup(){
         const appStore = useAppStore()
         return { appStore }
+    },
+    components:{
+        Modal
     },
     data() {
         return {
@@ -92,6 +101,14 @@ export default {
             temperatureInput: this.thresholdData[0].temperature_threshold,
             moistureInput: this.thresholdData[0].min_moisture_level,
             waterLevelInput: this.thresholdData[0].min_water_level,
+            modal: {
+                show: false,
+                type: "success",
+                icon: "mdi-check-circle",
+                title: "Update Success",
+                message: "Threshold has been updated",
+                color: "success"
+            }
         }
     },
     methods: {
@@ -110,10 +127,28 @@ export default {
                 this.temperature = this.temperatureInput
                 this.moisture = this.moistureInput
                 this.waterLevel = this.waterLevelInput
-                console.log(this.temperature)
+                this.modal.type = "success"
+                this.modal.icon = "mdi-check-circle"
+                this.modal.title = "Update Success"
+                this.modal.message = response.data.message
+                this.showModal();
+            } else {
+                this.modal.type = "error"
+                this.modal.icon = "mdi-alert-circle"
+                this.modal.title = "Update Failed"
+                this.modal.message = "Something went wrong"
+                this.modal.color = "error"
+                this.showModal();
             }
 
-        }
+        },
+        closeModal() {
+            this.modal.show = false
+        },
+        showModal() {
+            this.modal.show = true
+
+        },
     },
 }
 </script>
