@@ -78,5 +78,18 @@ export const useAppStore = defineStore("app", {
         console.error("Unable to update: ", error);
       }
     },
+    async waterPlant(payload){
+        var endpoint = `${PLANTIFY_API}/post_publish_payload_to_IoT`;
+    
+        try {
+            const response = await axios.post(endpoint, payload);
+    
+            if (response.status == 200) {
+                return response;
+            }
+        } catch (error) {
+            console.error("Unable to water plant: ", error);
+        }
+    }
   },
 });

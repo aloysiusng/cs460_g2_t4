@@ -9,6 +9,9 @@
                 <!-- Refresh data -->
                 <v-btn prepend-icon="mdi-refresh" class="my-auto" color="success">Refresh data</v-btn> 
                 <v-divider vertical class="mx-3"></v-divider>
+                <v-btn prepend-icon="mdi-water" class="my-auto" color="blue" @click="waterPlant()">Water Plant</v-btn> 
+                <v-divider vertical class="mx-3"></v-divider>
+
                 <!-- Export and print webpage -->
                 <v-switch hide-details="auto" inset label="Live data" v-model="this.appStore.liveData" class="me-3" color="success"></v-switch>
             </div>
@@ -25,6 +28,11 @@ export default {
         const appStore = useAppStore()
         return { appStore }
     },
+    methods:{
+        waterPlant(){
+            this.$emit('waterPlant')
+        }
+    }
 
 }
 </script>

@@ -16,7 +16,7 @@
                 </v-col>
                 <v-col cols="12" md="8">
                     <v-container>
-                        <dashboard-config class="mb-5" />
+                        <dashboard-config class="mb-5" @waterPlant="waterPlant"/>
                         <v-skeleton-loader type="heading, image" v-if="firstLoading"></v-skeleton-loader>
 
                         <v-card elevation="3" class="mb-2" v-if="!firstLoading">
@@ -45,6 +45,10 @@
             </v-card>
         </v-container>
     </v-container>
+    <template>
+        <Modal v-model="modal.show" :title="modal.title" :message="modal.message" :icon="modal.icon"
+            :color="modal.color" />
+    </template>
 </template>
 
 <script>
@@ -54,6 +58,7 @@ import Summary from '@/components/dashboard/Summary.vue';
 import PlantHealth from '@/components/dashboard/PlantHealth.vue';
 import DashboardConfig from '@/components/dashboard/DashboardConfig.vue';
 import ThresholdForm from '@/components/dashboard/ThresholdForm.vue';
+import Modal from '@/components/common/Modal.vue'
 import { useAppStore } from '@/store/app'
 
 
@@ -69,6 +74,13 @@ export default {
             loading: false,
             pollIntervalId: null,
             firstLoading: true,
+            modal: {
+                show: false,
+                title: '',
+                message: '',
+                icon: '',
+                color: ''
+            }
         }
     },
     components: {
@@ -77,7 +89,8 @@ export default {
         Summary,
         PlantHealth,
         DashboardConfig,
-        ThresholdForm
+        ThresholdForm,
+        Modal
     },
     watch: {
         'appStore.liveData': function (newLiveDataValue) {
@@ -152,6 +165,26 @@ export default {
                 const lastWatered = this.plantData[this.plantData.length - 1].last_watered_timestamp
                 return lastWatered
             }
+        },
+        waterPlant(){
+            const requestPayload = {
+                plant_id: "c325ae6d-5554-4605-bac1-b5bad7af14e1",
+                payload: {
+                    water_actuation: true
+                }
+            }
+            const response = this.appStore.waterPlant(requestPayload)
+
+            if (response.status === 200) {
+                this.modal.show = true;
+                console.log(response)
+            } else {
+                console.log("error")
+            }
+
+        },
+        closeModal(){
+            this.modal.show = false
         }
     },
 
