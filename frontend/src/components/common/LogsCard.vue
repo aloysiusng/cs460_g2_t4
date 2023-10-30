@@ -22,6 +22,7 @@ export default {
                     key: "time_stamp",
                 },
                 { title: "Humidity Level", key: "humidity_level" },
+                { title: "Temperature", key: "temperature" },
                 { title: "Moisture Level", key: "moisture_level" },
                 { title: "Water Level", key: "water_level" },
                 { title: "Sunlight Level", key: "sunlight_level" },
