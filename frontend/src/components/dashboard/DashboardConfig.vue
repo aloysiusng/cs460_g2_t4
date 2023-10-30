@@ -10,8 +10,6 @@
                 <v-btn prepend-icon="mdi-refresh" class="my-auto" color="success">Refresh data</v-btn> 
                 <v-divider vertical class="mx-3"></v-divider>
                 <!-- Export and print webpage -->
-                <v-btn prepend-icon="mdi-export" class="my-auto" @click="printPage()">Export dashboard</v-btn>
-                <v-divider vertical class="mx-3"></v-divider>
                 <v-switch hide-details="auto" inset label="Live data" v-model="this.appStore.liveData" class="me-3" color="success"></v-switch>
             </div>
 
@@ -27,9 +25,7 @@ export default {
         const appStore = useAppStore()
         return { appStore }
     },
-    printPage() {
-        window.print();
-    }
+
 }
 </script>
 
