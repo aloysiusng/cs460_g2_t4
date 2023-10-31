@@ -47,7 +47,7 @@
     </v-container>
     <template>
         <Modal v-model="modal.show" :title="modal.title" :message="modal.message" :icon="modal.icon"
-            :color="modal.color" />
+            :color="modal.color" @closeModal="closeModal()" :closeOnClick="true"/>
     </template>
 </template>
 
@@ -166,16 +166,21 @@ export default {
                 return lastWatered
             }
         },
-        waterPlant(){
+        async waterPlant(){
             const requestPayload = {
                 plant_id: "c325ae6d-5554-4605-bac1-b5bad7af14e1",
                 payload: {
                     water_actuation: true
                 }
             }
-            const response = this.appStore.waterPlant(requestPayload)
+            const response = await this.appStore.waterPlant(requestPayload)
 
             if (response.status === 200) {
+                this.modal.type = "success"
+                this.modal.icon = "mdi-check-circle"
+                this.modal.title = "Watering Success"
+                this.modal.message = "Your plant will be watered shortly"
+                this.modal.color = "success"
                 this.modal.show = true;
                 console.log(response)
             } else {

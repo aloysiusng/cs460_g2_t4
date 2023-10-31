@@ -90,6 +90,19 @@ export const useAppStore = defineStore("app", {
         } catch (error) {
             console.error("Unable to water plant: ", error);
         }
+    },
+    async publishThresholdToDevice(payload){
+        var endpoint = `${PLANTIFY_API}/post_publish_threshold_to_IoT`;
+    
+        try {
+            const response = await axios.post(endpoint, payload);
+    
+            if (response.status == 200) {
+                return response;
+            }
+        } catch (error) {
+            console.error("Unable to publish threshold: ", error);
+        }
     }
   },
 });
