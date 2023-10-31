@@ -24,7 +24,7 @@
           xAxis: {
             categories: [],
             title: {
-              text: 'time_stamp'
+              text: 'Time'
             },
           },
           yAxis: {

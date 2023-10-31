@@ -3,7 +3,7 @@
         <v-container :style="{ 'max-width': '1600px' }">
             <v-row>
                 <v-col cols="12" v-if="!firstLoading">
-                    <plant-health :lastWatered="getLastWatered()"></plant-health>
+                    <plant-health :lastWatered="getLastWatered()" v-if="getLastWatered()"></plant-health>
                 </v-col>
                 <v-col cols="12" md="3">
                     <v-container v-if="!firstLoading">
