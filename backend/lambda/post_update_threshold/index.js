@@ -15,7 +15,7 @@ exports.handler = async (event, context) => {
     const requestBody = JSON.parse(event.body);
     const { plant_id, min_water_level, min_moisture_level } = requestBody;
 
-    if (!plant_id || typeof min_water_level !== 'number' || typeof min_moisture_level !== 'number') {
+    if (!plant_id) {
         return {
             statusCode: 400,
             body: JSON.stringify({

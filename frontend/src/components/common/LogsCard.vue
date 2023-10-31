@@ -1,74 +1,56 @@
 <template>
-    <v-card>
-        <v-data-table>
-            <thead>
-                <tr>
-                <th class="text-left">
-                    time_stamp
-                </th>
-                <th class="text-left">
-                    Humidity Level
-                </th>
-                <th class="text-left">
-                    Moisture Level
-                </th>
-                <th class="text-left">
-                    Water Level
-                </th>
-                <th class="text-left">
-                    Sunlight Level
-                </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr
-                v-for="plant in plantData"
-                :key="plant.plant_id"
-                >
-                <td>{{ plant.time_stamp }}</td>
-                <td>{{ plant.humidity_level }} <v-progress-linear model-value=plant.humidity_level height="8" color="blue" rounded></v-progress-linear></td>
-                <td>{{ plant.moisture_level }}</td>
-                <td>{{ plant.water_level }}</td>
-                <td>{{ plant.sunlight_level }}</td>
-                </tr>
-            </tbody>
+    <v-card v-if="plantData && !loading">
+        <v-data-table v-model:items-per-page="itemsPerPage" :headers="headers" :items="plantData" density="compact">
         </v-data-table>
     </v-card>
-  </template>
+</template>
 
-  <script>
-    export default {
-        props: {
-            plantData: Object
-        }, 
-        data () {
+<script>
+export default {
+    props: {
+        plantData: Object
+    },
+    data() {
         return {
-          options: {
-            year: "numeric",
-            month: "2-digit",
-            day: "2-digit",
-            hour: "2-digit",
-            minute: "2-digit",
-            second: "2-digit",
-          },
+            loading: true,
+            itemsPerPage: 50,
+            headers: [
+                {
+                    title: "Time Stamp",
+                    align: "left",
+                    sortable: true,
+                    key: "time_stamp",
+                },
+                { title: "Humidity Level", key: "humidity_level" },
+                { title: "Temperature", key: "temperature" },
+                { title: "Moisture Level", key: "moisture_level" },
+                { title: "Water Level", key: "water_level" },
+                { title: "Sunlight Level", key: "sunlight_level" },
+            ],
+            options: {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+            },
         }
-      },
-      mounted(){
+    },
+    mounted() {
         console.log(this.plantData)
         if (this.plantData) {
-          this.formatData(this.plantData)
+            this.loading = false
+            this.formatTimestamp(this.plantData)
+
         }
-      },
-      methods: {
-        formatData(plantData) {
-          for (var data of plantData) {
-            data.time_stamp = new Date(data.time_stamp).toLocaleString("en-US", this.options)
-          }
-        }
-        // formatData(plantData) {
-        //   for (var data of plantData) {
-        //     data.time_stamp = new Date(data.time_stamp).toISOString()
-        //     data.time_stamp = data.time_stamp.slice(0, 10) + " " + data.time_stamp.slice(11, 19)
-          }
-        }
-  </script>
+    },
+    methods: {
+        formatTimestamp(plantData) {
+            for (var data of plantData) {
+                data.time_stamp = new Date(data.time_stamp).toLocaleString("en-US", this.options)
+            }
+        },
+    }
+}
+</script>
