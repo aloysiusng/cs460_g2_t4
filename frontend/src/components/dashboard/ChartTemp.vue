@@ -31,12 +31,12 @@ export default {
                 },
                 yAxis: [{
                     title: {
-                        text: 'Humidity'
+                        text: 'Humidity (%)'
                     },
                 },
                 {
                     title: {
-                        text: 'Temperature'
+                        text: 'Temperature (°C)'
                     },
                     opposite: true
                 }
@@ -49,6 +49,9 @@ export default {
                         name: 'Humidity Level',
                         data: [],
                         color: '#6fcd98',
+                        tooltip: {
+                            valueSuffix: '%'
+                        }
                     },
                     {
                         name: 'Temperature',
@@ -80,7 +83,7 @@ export default {
             for (var data of plantData) {
                 // categories.push(data.time_stamp)
                 this.chartData.xAxis.categories.push(new Date(data.time_stamp).toLocaleString("en-US", this.options))
-                this.chartData.series[0].data.push(data.humidity_level)
+                this.chartData.series[0].data.push(data.humidity_level/ 100)
                 this.chartData.series[1].data.push((data.temperature / 100) + 24)
 
             }
