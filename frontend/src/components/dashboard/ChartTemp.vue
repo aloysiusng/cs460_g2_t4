@@ -83,7 +83,7 @@ export default {
             for (var data of plantData) {
                 // categories.push(data.time_stamp)
                 this.chartData.xAxis.categories.push(new Date(data.time_stamp).toLocaleString("en-US", this.options))
-                this.chartData.series[0].data.push(data.humidity_level/ 100)
+                this.chartData.series[0].data.push(data.humidity_level/ 25)
                 this.chartData.series[1].data.push((data.temperature / 100) + 24)
 
             }

@@ -90,12 +90,12 @@ export default {
                         {
                             icon: 'mdi-thermometer',
                             label: 'Temperature',
-                            value: averageTemperature + '°C',
+                            value: (averageTemperature/100 + 24) + '°C',
                         },
                         {
                             icon: 'mdi-waves-arrow-up',
                             label: 'Humidity',
-                            value: averageHumidity + '%',
+                            value: (averageHumidity/25) + '%',
                         },
                     ];
                 }

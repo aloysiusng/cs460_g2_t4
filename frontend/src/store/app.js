@@ -59,7 +59,7 @@ export const useAppStore = defineStore("app", {
 
         if (response.status == 200) {
           return response.data;
-        }
+      }
       } catch (error) {
         console.error("Unable to get plantinfo: ", error);
       }
