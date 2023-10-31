@@ -36,6 +36,7 @@
             <v-col cols="12" md="3" class="order-sm-2">
                 <v-skeleton-loader type="table-heading, card, list-item-three-line" v-if="firstLoading"></v-skeleton-loader>
                 <v-container fluid v-if="!firstLoading">
+                    <PlantInfo/>
                     <ThresholdForm :thresholdData="this.thresholdData" />
                 </v-container>
             </v-col>
@@ -67,6 +68,7 @@ import DashboardConfig from '@/components/dashboard/DashboardConfig.vue';
 import ThresholdForm from '@/components/dashboard/ThresholdForm.vue';
 import Modal from '@/components/common/Modal.vue'
 import WeatherForecast from '@/components/dashboard/WeatherForecast.vue';
+import PlantInfo from '@/components/dashboard/PlantInfo.vue'
 import { useAppStore } from '@/store/app'
 
 
@@ -99,7 +101,8 @@ export default {
         DashboardConfig,
         ThresholdForm,
         Modal,
-        WeatherForecast
+        WeatherForecast,
+        PlantInfo
     },
     watch: {
         'appStore.liveData': function (newLiveDataValue) {
