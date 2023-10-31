@@ -81,7 +81,7 @@ export default {
                 // categories.push(data.time_stamp)
                 this.chartData.xAxis.categories.push(new Date(data.time_stamp).toLocaleString("en-US", this.options))
                 this.chartData.series[0].data.push(data.humidity_level)
-                this.chartData.series[1].data.push(data.temperature)
+                this.chartData.series[1].data.push((data.temperature / 100) + 24)
 
             }
             // console.log(this.chartData.xAxis.categories)
