@@ -1,5 +1,5 @@
 <template>
-    <v-card>
+    <v-card elevation="3">
         <v-card-title class="text-h6 font-weight-medium text-start">
             <v-icon class="me-3">mdi-format-list-bulleted</v-icon>Summary
         </v-card-title>

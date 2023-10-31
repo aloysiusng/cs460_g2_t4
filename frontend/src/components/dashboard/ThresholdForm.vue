@@ -1,5 +1,5 @@
 <template>
-    <v-card>
+    <v-card elevation="3">
         <v-card-title class="text-h6 font-weight-medium text-start"><v-icon
                 class="me-3">mdi-format-list-bulleted</v-icon>Threshold </v-card-title>
         <v-divider></v-divider>
@@ -37,15 +37,15 @@
         <v-card-item>
             <v-form>
                 <v-text-field label="Temperature" outlined class="mt-3" v-model="temperatureInput" type="number" min="0"
-                    max="100" step="1" suffix="°C">
+                    max="100" step="1" suffix="°C" hide-details="auto">
                 </v-text-field>
                 <v-text-field label="Moisture" outlined class="mt-3" v-model="moistureInput" type="number" min="0" max="100"
-                    step="1" suffix="%">
+                    step="1" suffix="%" hide-details="auto">
                 </v-text-field>
                 <v-text-field label="Water Level" outlined class="mt-3" v-model="waterLevelInput" type="number" min="0"
-                    max="100" step="1" suffix="ml">
+                    max="100" step="1" suffix="ml" hide-details="auto">
                 </v-text-field>
-                <v-btn @click="updateThreshold" color="green" class="mt-3" block :loading="btnLoading">Update</v-btn>
+                <v-btn @click="updateThreshold" color="green" class="my-3" block :loading="btnLoading">Update</v-btn>
             </v-form>
         </v-card-item>
     </v-card>
