@@ -1,20 +1,21 @@
 <template>
     <v-container>
-        <v-container :style="{ 'max-width': '1280px' }">
+        <v-container :style="{ 'max-width': '1600px' }">
             <v-row>
                 <v-col cols="12" v-if="!firstLoading">
                     <plant-health :lastWatered="getLastWatered()"></plant-health>
                 </v-col>
-                <v-col cols="12" md="4">
+                <v-col cols="12" md="3">
                     <v-container v-if="!firstLoading">
                         <Summary :plantData="plantData"/>
                     </v-container>
                     <v-container v-if="!firstLoading">
-                        <ThresholdForm :thresholdData="this.thresholdData"/>
+                        <WeatherForecast location="Singapore" />
                     </v-container>
+                    
 
                 </v-col>
-                <v-col cols="12" md="8">
+                <v-col cols="12" md="6">
                     <v-container>
                         <dashboard-config class="mb-5" @waterPlant="waterPlant"/>
                         <v-skeleton-loader type="heading, image" v-if="firstLoading"></v-skeleton-loader>
@@ -29,6 +30,11 @@
                         <v-card elevation="3" class="mb-2" v-if="!firstLoading">
                             <ChartWaterLevel :plantData="this.plantData" @refresh-data="this.getPlantInfo()" />
                         </v-card>
+                    </v-container>
+                </v-col>
+                <v-col cols="12" md="3">
+                    <v-container v-if="!firstLoading">
+                        <ThresholdForm :thresholdData="this.thresholdData"/>
                     </v-container>
                 </v-col>
             </v-row>
@@ -59,6 +65,7 @@ import PlantHealth from '@/components/dashboard/PlantHealth.vue';
 import DashboardConfig from '@/components/dashboard/DashboardConfig.vue';
 import ThresholdForm from '@/components/dashboard/ThresholdForm.vue';
 import Modal from '@/components/common/Modal.vue'
+import WeatherForecast from '@/components/dashboard/WeatherForecast.vue';
 import { useAppStore } from '@/store/app'
 
 
@@ -90,7 +97,8 @@ export default {
         PlantHealth,
         DashboardConfig,
         ThresholdForm,
-        Modal
+        Modal,
+        WeatherForecast
     },
     watch: {
         'appStore.liveData': function (newLiveDataValue) {

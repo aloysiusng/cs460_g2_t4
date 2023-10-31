@@ -78,31 +78,112 @@ export const useAppStore = defineStore("app", {
         console.error("Unable to update: ", error);
       }
     },
-    async waterPlant(payload){
-        var endpoint = `${PLANTIFY_API}/post_publish_payload_to_IoT`;
-    
-        try {
-            const response = await axios.post(endpoint, payload);
-    
-            if (response.status == 200) {
-                return response;
-            }
-        } catch (error) {
-            console.error("Unable to water plant: ", error);
+    async waterPlant(payload) {
+      var endpoint = `${PLANTIFY_API}/post_publish_payload_to_IoT`;
+
+      try {
+        const response = await axios.post(endpoint, payload);
+
+        if (response.status == 200) {
+          return response;
         }
+      } catch (error) {
+        console.error("Unable to water plant: ", error);
+      }
     },
-    async publishThresholdToDevice(payload){
-        var endpoint = `${PLANTIFY_API}/post_publish_threshold_to_IoT`;
-    
-        try {
-            const response = await axios.post(endpoint, payload);
-    
-            if (response.status == 200) {
-                return response;
-            }
-        } catch (error) {
-            console.error("Unable to publish threshold: ", error);
+    async publishThresholdToDevice(payload) {
+      var endpoint = `${PLANTIFY_API}/post_publish_threshold_to_IoT`;
+
+      try {
+        const response = await axios.post(endpoint, payload);
+
+        if (response.status == 200) {
+          return response;
         }
+      } catch (error) {
+        console.error("Unable to publish threshold: ", error);
+      }
+    },
+
+    async fetchWeatherData(location) {
+      //   {
+      //     "coord": {
+      //         "lon": 103.8501,
+      //         "lat": 1.2897
+      //     },
+      //     "weather": [
+      //         {
+      //             "id": 803,
+      //             "main": "Clouds",
+      //             "description": "broken clouds",
+      //             "icon": "04d"
+      //         }
+      //     ],
+      //     "base": "stations",
+      //     "main": {
+      //         "temp": 29.71,
+      //         "feels_like": 36.71,
+      //         "temp_min": 28.92,
+      //         "temp_max": 31.25,
+      //         "pressure": 1011,
+      //         "humidity": 81
+      //     },
+      //     "visibility": 8000,
+      //     "wind": {
+      //         "speed": 2.06,
+      //         "deg": 330
+      //     },
+      //     "clouds": {
+      //         "all": 75
+      //     },
+      //     "dt": 1698717770,
+      //     "sys": {
+      //         "type": 2,
+      //         "id": 265581,
+      //         "country": "SG",
+      //         "sunrise": 1698705961,
+      //         "sunset": 1698749418
+      //     },
+      //     "timezone": 28800,
+      //     "id": 1880252,
+      //     "name": "Singapore",
+      //     "cod": 200
+      // }
+
+      // Define your API endpoint and API key 
+      const apiKey = import.meta.env.VITE_OPENWEATHER_API_KEY;
+      const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}&units=metric`;
+
+      try {
+        // Use Axios to make the API request.
+        const response = await axios.get(apiUrl);
+
+        if(response.status==200){
+            return response
+        }
+
+      } catch (error) {
+        console.error("Error fetching weather data:", error);
+        return null; // Return null in case of an error
+      }
+    },
+    async fetchForecastWeatherData(location) {
+        // Define your API endpoint and API key 
+      const apiKey = import.meta.env.VITE_OPENWEATHER_API_KEY;
+      const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=${apiKey}&units=metric`;
+
+      try {
+        // Use Axios to make the API request.
+        const response = await axios.get(apiUrl);
+
+        if(response.status==200){
+            return response
+        }
+
+      } catch (error) {
+        console.error("Error fetching weather data:", error);
+        return null; // Return null in case of an error
+      }
     }
   },
 });

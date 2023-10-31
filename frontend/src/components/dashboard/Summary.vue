@@ -20,7 +20,7 @@
             </v-card-item>
         </v-card-text>
 
-        <v-card-text>
+        <v-card-text class="pt-0">
             <v-card color="secondary" variant="outlined">
                 <v-card-title>Daily Average</v-card-title>
                 <v-card-item v-for="(average, key) in dailyAverage" :key="key">
@@ -40,13 +40,6 @@
 export default {
     props: {
         plantData: Array
-    },
-    data() {
-        return {
-        }
-    },
-    mounted() {
-
     },
     computed: {
         latestData() {
