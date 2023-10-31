@@ -41,7 +41,7 @@
                     <v-divider></v-divider>
                 </v-card-item>
                 <!-- Loop through forecastData and display time, temperature, humidity, weather description -->
-                <v-card-title>3 Hour Weather Forecast</v-card-title>
+                <v-card-title>3 Hr Forecast</v-card-title>
                 <v-card-item v-if="forecastData">
                     <div class="d-flex mb-3">
                         <v-icon color="green" size="20" class="me-3">mdi-clock-outline</v-icon>
