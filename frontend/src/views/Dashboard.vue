@@ -1,20 +1,18 @@
 <template>
         <v-container fluid :style="{ 'max-width': '1600px' }">
-            <v-row>
-                <v-col cols="12" v-if="!firstLoading">
+            <v-row dense>
+                <v-col cols="12" v-if="!firstLoading" class="order-sm-3">
                     <plant-health :lastWatered="getLastWatered()" v-if="getLastWatered()"></plant-health>
                 </v-col>
-                <v-col cols="12" md="3">
+                <v-col cols="12" md="3" class="order-2">
                     <v-container fluid v-if="!firstLoading">
                         <Summary :plantData="plantData"/>
                     </v-container>
                     <v-container fluid v-if="!firstLoading">
                         <WeatherForecast location="Singapore" />
                     </v-container>
-                    
-
                 </v-col>
-                <v-col cols="12" md="6">
+                <v-col cols="12" md="6" order-md="2" class="order-sm-1">
                     <v-container fluid>
                         <dashboard-config class="mb-5" @waterPlant="waterPlant"/>
                         <v-skeleton-loader type="heading, image" v-if="firstLoading"></v-skeleton-loader>
@@ -31,7 +29,7 @@
                         </v-card>
                     </v-container>
                 </v-col>
-                <v-col cols="12" md="3">
+                <v-col cols="12" md="3" class="order-sm-2">
                     <v-container fluid v-if="!firstLoading">
                         <ThresholdForm :thresholdData="this.thresholdData"/>
                     </v-container>
