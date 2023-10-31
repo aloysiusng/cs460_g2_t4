@@ -50,12 +50,12 @@ export default {
                     {
                         icon: 'mdi-thermometer',
                         label: 'Temperature',
-                        value: latest.temperature ? latest.temperature + '°C' : 'N/A',
+                        value: latest.temperature/100 ? (latest.temperature/10 +15) + '°C' : 'N/A',
                     },
                     {
                         icon: 'mdi-waves-arrow-up',
                         label: 'Humidity',
-                        value: latest.humidity_level ? latest.humidity_level + '%' : 'N/A',
+                        value: latest.humidity_level ? (latest.humidity_level/25) + '%' : 'N/A',
                     },
                     {
                         icon: 'mdi-weather-pouring',
