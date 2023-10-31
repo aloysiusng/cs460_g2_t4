@@ -1,69 +1,37 @@
 <template>
     <v-card>
-        <v-card-title  class="text-h6 font-weight-medium text-start"><v-icon class="me-3">mdi-format-list-bulleted</v-icon>Summary </v-card-title>
+        <v-card-title class="text-h6 font-weight-medium text-start">
+            <v-icon class="me-3">mdi-format-list-bulleted</v-icon>Summary
+        </v-card-title>
         <v-divider></v-divider>
         <v-card-text class="pb-0">
             <v-card color="info" variant="outlined">
                 <v-card-title>Latest Data</v-card-title>
-                <v-card-item>
+                <v-card-item v-for="(dataItem, key) in latestData" :key="key">
                     <div class="d-flex">
-                        <v-icon color="green" size="20" class="me-3">mdi-thermometer</v-icon>
-                        <p class="text-title font-weight-medium">Temperature</p>
+                        <v-icon color="green" size="20" class="me-3">{{ dataItem.icon }}</v-icon>
+                        <p class="text-title font-weight-medium">{{ dataItem.label }}</p>
                         <v-spacer></v-spacer>
-                        <p class="text-title">28°C</p>
-                    </div>
-                </v-card-item>
-                <v-card-item>
-                    <div class="d-flex">
-                        <v-icon color="green" size="20" class="me-3">mdi-waves-arrow-up</v-icon>
-                        <p class="text-title font-weight-medium">Humidity</p>
-                        <v-spacer></v-spacer>
-                        <p class="text-title">28°C</p>
-                    </div>
-                </v-card-item>
-                <v-card-item>
-                    <div class="d-flex">
-                        <v-icon color="green" size="20" class="me-3">mdi-weather-pouring</v-icon>
-                        <p class="text-title font-weight-medium">Raining</p>
-                        <v-spacer></v-spacer>
-                        <p class="text-title">No</p>
-                    </div>
-                </v-card-item>
-                <v-card-item>
-                    <div class="d-flex">
-                        <v-icon color="green" size="20" class="me-3">mdi-water</v-icon>
-                        <p class="text-title font-weight-medium">Last watered</p>
-                        <v-spacer></v-spacer>
-                        <p class="text-title">28°C</p>
+                        <p class="text-title">{{ dataItem.value }}</p>
                     </div>
                 </v-card-item>
             </v-card>
             <v-card-item>
             </v-card-item>
         </v-card-text>
-        
+
         <v-card-text>
             <v-card color="secondary" variant="outlined">
                 <v-card-title>Daily Average</v-card-title>
-                <v-card-item>
+                <v-card-item v-for="(average, key) in dailyAverage" :key="key">
                     <div class="d-flex">
-                        <v-icon color="green" size="20" class="me-3">mdi-thermometer</v-icon>
-                        <p class="text-title font-weight-medium">Temperature</p>
+                        <v-icon color="green" size="20" class="me-3">{{ average.icon }}</v-icon>
+                        <p class="text-title font-weight-medium">{{ average.label }}</p>
                         <v-spacer></v-spacer>
-                        <p class="text-title">28°C</p>
-                    </div>
-                </v-card-item>
-                <v-card-item>
-                    <div class="d-flex">
-                        <v-icon color="green" size="20" class="me-3">mdi-waves-arrow-up</v-icon>
-                        <p class="text-title font-weight-medium">Humidity</p>
-                        <v-spacer></v-spacer>
-                        <p class="text-title">28°C</p>
+                        <p class="text-title">{{ average.value }}</p>
                     </div>
                 </v-card-item>
             </v-card>
-            <v-card-item>
-            </v-card-item>
         </v-card-text>
     </v-card>
 </template>
@@ -71,7 +39,7 @@
 <script>
 export default {
     props: {
-        plantData: Object
+        plantData: Array
     },
     data() {
         return {
@@ -80,15 +48,69 @@ export default {
     mounted() {
 
     },
-    // methods:{
-    //     getAverageWaterLevel(data){
-    //         // Calculate the sum of water_level values
-    //         const sumWaterLevel = data.reduce((acc, item) => acc + item.water_level, 0);
-    //         // Calculate the average
-    //         const averageWaterLevel = sumWaterLevel / data.length; 
-    //         return averageWaterLevel;  
-    //     }
-    // }
+    computed: {
+        latestData() {
+            // Get the latest data from plantData
+            if (Array.isArray(this.plantData) && this.plantData.length > 0) {
+                const latest = this.plantData[this.plantData.length - 1];
+                return [
+                    {
+                        icon: 'mdi-thermometer',
+                        label: 'Temperature',
+                        value: latest.temperature ? latest.temperature + '°C' : 'N/A',
+                    },
+                    {
+                        icon: 'mdi-waves-arrow-up',
+                        label: 'Humidity',
+                        value: latest.humidity_level ? latest.humidity_level + '%' : 'N/A',
+                    },
+                    {
+                        icon: 'mdi-weather-pouring',
+                        label: 'Raining',
+                        value: latest.raining ? 'Yes' : 'No',
+                    },
+                    {
+                        icon: 'mdi-water',
+                        label: 'Last watered',
+                        value: latest.last_watered_timestamp ? latest.last_watered_timestamp : 'N/A',
+                    },
+                ];
+            }
+            return [];
+        },
+        dailyAverage() {
+            // Calculate daily average from plantData
+            if (Array.isArray(this.plantData) && this.plantData.length > 0) {
+                // Filter out entries with non-null temperature and humidity
+                const filteredData = this.plantData.filter(
+                    (entry) => entry.temperature !== null && entry.humidity_level !== null
+                );
+
+                if (filteredData.length > 0) {
+                    const sumTemperature = filteredData.reduce((acc, entry) => acc + entry.temperature, 0);
+                    const averageTemperature = (sumTemperature / filteredData.length).toFixed(1);
+
+                    const sumHumidity = filteredData.reduce((acc, entry) => acc + entry.humidity_level, 0);
+                    const averageHumidity = (sumHumidity / filteredData.length).toFixed(1);
+
+                    return [
+                        {
+                            icon: 'mdi-thermometer',
+                            label: 'Temperature',
+                            value: averageTemperature + '°C',
+                        },
+                        {
+                            icon: 'mdi-waves-arrow-up',
+                            label: 'Humidity',
+                            value: averageHumidity + '%',
+                        },
+                    ];
+                }
+            }
+            return [];
+        },
+
+    },
 }
 </script>
   

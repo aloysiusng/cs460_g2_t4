@@ -7,7 +7,7 @@
                 </v-col>
                 <v-col cols="12" md="4">
                     <v-container v-if="!firstLoading">
-                        <Summary />
+                        <Summary :plantData="plantData"/>
                     </v-container>
                     <v-container v-if="!firstLoading">
                         <ThresholdForm :thresholdData="this.thresholdData"/>
