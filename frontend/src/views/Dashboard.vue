@@ -1,22 +1,21 @@
 <template>
-    <v-container>
-        <v-container :style="{ 'max-width': '1600px' }">
+        <v-container fluid :style="{ 'max-width': '1600px' }">
             <v-row>
                 <v-col cols="12" v-if="!firstLoading">
                     <plant-health :lastWatered="getLastWatered()" v-if="getLastWatered()"></plant-health>
                 </v-col>
                 <v-col cols="12" md="3">
-                    <v-container v-if="!firstLoading">
+                    <v-container fluid v-if="!firstLoading">
                         <Summary :plantData="plantData"/>
                     </v-container>
-                    <v-container v-if="!firstLoading">
+                    <v-container fluid v-if="!firstLoading">
                         <WeatherForecast location="Singapore" />
                     </v-container>
                     
 
                 </v-col>
                 <v-col cols="12" md="6">
-                    <v-container>
+                    <v-container fluid>
                         <dashboard-config class="mb-5" @waterPlant="waterPlant"/>
                         <v-skeleton-loader type="heading, image" v-if="firstLoading"></v-skeleton-loader>
 
@@ -24,7 +23,7 @@
                             <ChartTemp :plantData="this.plantData" />
                         </v-card>
                     </v-container>
-                    <v-container class="pt-0">
+                    <v-container fluid class="pt-0">
                         <v-skeleton-loader type="heading, image" v-if="firstLoading"></v-skeleton-loader>
 
                         <v-card elevation="3" class="mb-2" v-if="!firstLoading">
@@ -33,13 +32,13 @@
                     </v-container>
                 </v-col>
                 <v-col cols="12" md="3">
-                    <v-container v-if="!firstLoading">
+                    <v-container fluid v-if="!firstLoading">
                         <ThresholdForm :thresholdData="this.thresholdData"/>
                     </v-container>
                 </v-col>
             </v-row>
         </v-container>
-        <v-container v-if="loading == false && plantData == null">
+        <v-container fluid v-if="loading == false && plantData == null">
             <v-card>
                 <v-card-text>
                     <v-row>
@@ -50,7 +49,6 @@
                 </v-card-text>
             </v-card>
         </v-container>
-    </v-container>
     <template>
         <Modal v-model="modal.show" :title="modal.title" :message="modal.message" :icon="modal.icon"
             :color="modal.color" @closeModal="closeModal()" :closeOnClick="true"/>
