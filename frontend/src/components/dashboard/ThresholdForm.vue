@@ -17,9 +17,9 @@
                 <v-card-item>
                     <div class="d-flex">
                         <v-icon color="green" size="20" class="me-3">mdi-waves-arrow-up</v-icon>
-                        <p class="text-title font-weight-medium">Moisture</p>
+                        <p class="text-title font-weight-medium">Humidity</p>
                         <v-spacer></v-spacer>
-                        <p class="text-title">{{ moisture }} %</p>
+                        <p class="text-title">{{ moisture }}</p>
                     </div>
                 </v-card-item>
                 <v-card-item>
@@ -27,7 +27,7 @@
                         <v-icon color="green" size="20" class="me-3">mdi-water</v-icon>
                         <p class="text-title font-weight-medium">Water Level</p>
                         <v-spacer></v-spacer>
-                        <p class="text-title">{{ waterLevel }} ml</p>
+                        <p class="text-title">{{ waterLevel }} %</p>
                     </div>
                 </v-card-item>
             </v-card>
@@ -43,7 +43,7 @@
                     step="1" suffix="%" hide-details="auto">
                 </v-text-field>
                 <v-text-field label="Water Level" outlined class="mt-3" v-model="waterLevelInput" type="number" min="0"
-                    max="100" step="1" suffix="ml" hide-details="auto">
+                    max="100" step="1" suffix="%" hide-details="auto">
                 </v-text-field>
                 <v-btn @click="updateThreshold" color="green" class="my-3" block :loading="btnLoading">Update</v-btn>
             </v-form>
