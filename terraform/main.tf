@@ -114,7 +114,7 @@ resource "aws_iot_topic_rule" "plant_sensor_data_rule" {
   name        = "plant_sensor_data_rule"
   description = "Rule for plant sensor data"
   enabled     = true
-  sql         = "SELECT plant_id, time_stamp() as time_stamp, humidity_level, temperature, water_level, raining, last_watered_time_stamp, sunlight_level, moisture_level FROM 'device/+/data'"
+  sql         = "SELECT plant_id, timestamp() as time_stamp, humidity_level, temperature, water_level, raining, last_watered_time_stamp, sunlight_level, moisture_level FROM 'device/+/data'"
   sql_version = "2016-03-23"
 
   dynamodbv2 {
