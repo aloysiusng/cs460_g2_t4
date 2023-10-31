@@ -40,7 +40,7 @@
                     max="100" step="1" suffix="°C" hide-details="auto">
                 </v-text-field>
                 <v-text-field label="Humidity" outlined class="mt-3" v-model="moistureInput" type="number" min="0" max="100"
-                    step="1" suffix="%" hide-details="auto">
+                    step="1" hide-details="auto">
                 </v-text-field>
                 <v-text-field label="Water Level" outlined class="mt-3" v-model="waterLevelInput" type="number" min="0"
                     max="100" step="1" suffix="%" hide-details="auto">
