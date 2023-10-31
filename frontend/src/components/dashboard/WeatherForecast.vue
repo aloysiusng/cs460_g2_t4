@@ -29,7 +29,7 @@
                     </div>
                     <div class="d-flex mb-3">
                         <v-icon color="green" size="20" class="me-3">mdi-cloud</v-icon>
-                        <p class="text-title font-weight-medium">Description</p>
+                        <p class="text-title font-weight-medium">Weather</p>
                         <v-spacer></v-spacer>
                         <p class="text-title">{{ weatherData.weatherDescription }}</p>
                     </div>
@@ -63,7 +63,7 @@
                     </div>
                     <div class="d-flex mb-3">
                         <v-icon color="green" size="20" class="me-3">mdi-cloud</v-icon>
-                        <p class="text-title font-weight-medium">Description</p>
+                        <p class="text-title font-weight-medium">Weather</p>
                         <v-spacer></v-spacer>
                         <p class="text-title">{{ forecastDataNext3Hours.weather[0].description }}</p>
                     </div>
