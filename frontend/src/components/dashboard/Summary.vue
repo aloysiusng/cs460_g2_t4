@@ -50,7 +50,7 @@ export default {
                     {
                         icon: 'mdi-thermometer',
                         label: 'Temperature',
-                        value: latest.temperature ? ((latest.temperature/100) +15) + '°C' : 'N/A',
+                        value: latest.temperature ? ((latest.temperature/100) + 24) + '°C' : 'N/A',
                     },
                     {
                         icon: 'mdi-waves-arrow-up',
