@@ -74,10 +74,6 @@ export default {
                 value: 'dashboard',
             },
             {
-                title: 'Logs',
-                value: 'logs',
-            },
-            {
                 title: 'Logout',
                 value: 'logout',
             },
