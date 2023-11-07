@@ -11,7 +11,6 @@
 
                 <div class="d-none d-md-block d-sm-block my-auto">
                     <v-btn rounded variant="text" to="/dashboard">Dashboard</v-btn>
-                    <v-btn rounded variant="text" to="/logs">Logs</v-btn>
                 </div>
 
                 <v-spacer></v-spacer>
