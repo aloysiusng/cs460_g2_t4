@@ -8,6 +8,7 @@ import threading
 import time
 import json
 from utils.command_line_utils import CommandLineUtils
+import requests
 
 # This sample uses the Message Broker for AWS IoT to send and receive messages
 # through an MQTT connection. On startup, the device connects to the server,
@@ -125,8 +126,9 @@ def getWaterRatio():
         pulse_duration = pulse_end_time - pulse_start_time
         distance = round(pulse_duration * 17150, 2)
         global previousWaterDistance
-        if distance > previousWaterDistance:
-            previousWaterDistance = distance
+        previousWaterDistance = 12.02
+        # if distance > previousWaterDistance:
+        #     previousWaterDistance = distance
         ratioWaterLevel = (1 - (distance / previousWaterDistance)) * 100
     except:
         pass
@@ -162,9 +164,9 @@ def getData():
     # # print output to the console
     # print(f"current_working_directory: {current_working_directory}")
 
-    return {"humidity_level": round(humidity, 3) if humidity != None else None, 
-    "temperature": round(temperature, 3) if temperature != None else None,
-    "water_level": round(ratioWaterLevel, 3) if ratioWaterLevel != None else None, 
+    return {"humidity_level": round(humidity, 3) if humidity != None else -1, 
+    "temperature": round(temperature, 3) if temperature != None else -1,
+    "water_level": round(ratioWaterLevel, 3) if ratioWaterLevel != None else -1, 
     "raining": True if not no_rain else False, 
     "last_watered_time_stamp": last_watered_time_stamp, 
     "sunlight_level" : 0 if sunlightLevel else 1,
@@ -182,21 +184,41 @@ def offswitch(RelayPin = RelayPin):
     GPIO.output(RelayPin, GPIO.HIGH)
     GPIO.cleanup()
 
-    
+# import pandas as pd
 def waterPlant():
     try:
         # raise Exception("Cannot")
         onswitch(RelayPin)
-        time.sleep(5)
+        time.sleep(20)
         
         offswitch(RelayPin)
-        log(f"watered at {datetime.datetime.now()}", "wateringschedule.txt")
+        # t = pd.Timestamp(datetime.datetime.now())
+        # t = t.replace(hour=7, minute=0, second=0)
+        # print(t)
+        log(f"watered at {datetime.datetime.now()}", wateringscheduleFile)
+        # log(f"watered at {t}", wateringscheduleFile)
         return True
     except:
         return False
 
+def printtempdata():
+    print(f"message_string['humidity_level']/25 > thresholds['min_moisture_level']: {float(message_string['humidity_level'])/25 > int(thresholds['min_moisture_level'])}")
+    print(f"message_string['temperature']/100 + 24 > thresholds['temperature_threshold']: {float(message_string['temperature'])/100 + 24 > int(thresholds['temperature_threshold'])}")
+    print(f"message_string['humidity_level'] /25 : {float(message_string['humidity_level']) /25}, thresholds['min_moisture_level']: {int(thresholds['min_moisture_level'])}")
+    print(f"message_string['temperature'] /100 + 24 : {float(message_string['temperature']) /100 + 24}, thresholds['temperature_threshold']: {int(thresholds['temperature_threshold'])}")
+    print("---------------------------------------------------------")
 
+def getThresholds():
+    url = "https://bi78gkwb12.execute-api.ap-southeast-1.amazonaws.com/api/post_email_water_level_low_alert"
+    r = requests.post(url, json={
+    "plant_id":"c325ae6d-5554-4605-bac1-b5bad7af14e1" }, 
+    headers={"Content-Type": "application/json"})
+    return r.status_code, r.json()
 
+def getThresholds():
+    url = "https://bi78gkwb12.execute-api.ap-southeast-1.amazonaws.com/api/get_threshold?plant_id=c325ae6d-5554-4605-bac1-b5bad7af14e1"
+    r = requests.get(url)
+    return r.json()["data"][0]
 if __name__ == '__main__':
     GPIO.setmode(GPIO.BOARD)
     GPIO.setup(8, GPIO.IN)
@@ -239,7 +261,7 @@ if __name__ == '__main__':
 
     message_count = cmdData.input_count
     # message_topic = cmdData.input_topic
-    message_topic = f"device2/{plant_id}/data"
+    message_topic = f"device/{plant_id}/data"
     # message_string = cmdData.input_message
     import json
 
@@ -284,6 +306,22 @@ if __name__ == '__main__':
             # log(f"Published {message_string} to AWS Iot Core\n")
 
             subscribe_result = subscribe_future.result()
+            thresholds = getThresholds()
+
+            printtempdata()
+
+            if float(message_string["humidity_level"])/25 > int(thresholds["min_moisture_level"]) or \
+                    float(message_string["temperature"])/100 + 24 > float(thresholds["temperature_threshold"]):
+                        # message_string["water_level"] > thresholds["water_threshold"]
+                print("threshold hit so watering:")
+                printtempdata()
+                waterPlant()
+                print("watering done")
+            
+            print(f"message_string['water_level']: {message_string['water_level']}")
+            if -1 < float(message_string["water_level"]) and float(message_string["water_level"]) > int(thresholds["min_water_level"]):
+                data = getThresholds()
+                print("sending email:", data.status_code)
 
     # Wait for all messages to be received.
     # This waits forever if count was set to 0.
