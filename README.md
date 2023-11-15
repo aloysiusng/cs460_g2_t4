@@ -1,4 +1,4 @@
-# cs460_g2_t4
+# iot-plantify-project
 
 ## Plantify Overview
 
@@ -67,5 +67,7 @@ Core
 ![AWS Architecture diagram](./diagrams/aws_architecture_diagram.png)
 
 ## Building the infrastructure
+Follow the guide in the [Infrastructure readme](terraform/README.md) file to build the infrastructure.
 
-Follow the guide in the [Infrastructure](terraform/README.md) file to build the infrastructure.
+## Building the frontend
+Follow the guide in the [Frontend readme](frontend/README.md) file to build the frontend.
